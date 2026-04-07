@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF8E7"/>
+      <stop offset="100%" stop-color="#FFFDD0"/>
+    </radialGradient>
+    <radialGradient id="plateGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F9E076"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#895129" flood-opacity="0.18"/>
+    </filter>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#895129" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="190" fill="url(#bg)" filter="url(#shadow)"/>
+  <circle cx="200" cy="200" r="188" fill="none" stroke="#FFC107" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+
+  <!-- Decorative ring -->
+  <circle cx="200" cy="200" r="172" fill="none" stroke="#F9E076" stroke-width="1" opacity="0.8"/>
+
+  <!-- Plate -->
+  <ellipse cx="200" cy="210" rx="108" ry="108" fill="url(#plateGrad)" filter="url(#subtleShadow)"/>
+  <ellipse cx="200" cy="210" rx="108" ry="108" fill="none" stroke="#FFC107" stroke-width="2.5"/>
+  <!-- Plate inner rim -->
+  <ellipse cx="200" cy="210" rx="90" ry="90" fill="none" stroke="#F9E076" stroke-width="1.5"/>
+
+  <!-- Decorative fork (left) -->
+  <g transform="translate(78, 130) rotate(-18)">
+    <!-- Handle -->
+    <rect x="-4" y="0" width="8" height="72" rx="4" fill="#895129"/>
+    <!-- Tines -->
+    <line x1="-8" y1="-22" x2="-8" y2="8" stroke="#895129" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-2.5" y1="-26" x2="-2.5" y2="6" stroke="#895129" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-22" x2="3" y2="8" stroke="#895129" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="8.5" y1="-18" x2="8.5" y2="8" stroke="#895129" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Fork neck -->
+    <path d="-8,8 Q-8,18 -4,20 L4,20 Q8,18 8,8" fill="#895129" stroke="none"/>
+    <rect x="-4" y="8" width="8" height="14" rx="2" fill="#895129"/>
+  </g>
+
+  <!-- Decorative knife (right) -->
+  <g transform="translate(322, 128) rotate(18)">
+    <!-- Handle -->
+    <rect x="-4" y="0" width="8" height="72" rx="4" fill="#895129"/>
+    <!-- Blade -->
+    <path d="M-3,-28 Q6,-26 6,0 L-3,0 Z" fill="#A0642F"/>
+    <line x1="-3" y1="-28" x2="-3" y2="0" stroke="#895129" stroke-width="1"/>
+  </g>
+
+  <!-- Globe/world lines on plate (subtle) -->
+  <g opacity="0.12">
+    <ellipse cx="200" cy="210" rx="70" ry="70" fill="none" stroke="#895129" stroke-width="1"/>
+    <ellipse cx="200" cy="210" rx="70" ry="25" fill="none" stroke="#895129" stroke-width="1"/>
+    <line x1="130" y1="210" x2="270" y2="210" stroke="#895129" stroke-width="1"/>
+    <line x1="200" y1="140" x2="200" y2="280" stroke="#895129" stroke-width="1"/>
+  </g>
+
+  <!-- Central sprig / herb decoration -->
+  <!-- Leaf 1 -->
+  <ellipse cx="200" cy="188" rx="7" ry="14" fill="#4A7C59" transform="rotate(-20 200 188)" opacity="0.9"/>
+  <!-- Leaf 2 -->
+  <ellipse cx="210" cy="192" rx="6" ry="12" fill="#5C9A6E" transform="rotate(15 210 192)" opacity="0.9"/>
+  <!-- Leaf 3 -->
+  <ellipse cx="190" cy="194" rx="6" ry="11" fill="#4A7C59" transform="rotate(-40 190 194)" opacity="0.85"/>
+  <!-- Stem -->
+  <path d="M200,205 Q203,195 200,180" fill="none" stroke="#3B6D45" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Small decorative dots (spice-like) on plate -->
+  <circle cx="178" cy="228" r="3" fill="#FFC107" opacity="0.8"/>
+  <circle cx="222" cy="228" r="3" fill="#FFC107" opacity="0.8"/>
+  <circle cx="200" cy="235" r="2.5" fill="#F9E076" opacity="0.7"/>
+  <circle cx="186" cy="216" r="2" fill="#895129" opacity="0.4"/>
+  <circle cx="214" cy="218" r="2" fill="#895129" opacity="0.4"/>
+  <circle cx="176" cy="210" r="1.5" fill="#FFC107" opacity="0.5"/>
+  <circle cx="224" cy="212" r="1.5" fill="#FFC107" opacity="0.5"/>
+
+  <!-- Star/sparkle accents -->
+  <g fill="#FFC107" opacity="0.7">
+    <polygon points="152,88 154.5,95.5 162,95.5 156,100 158.5,107.5 152,103 145.5,107.5 148,100 142,95.5 149.5,95.5" transform="scale(0.55) translate(126,66)"/>
+    <polygon points="248,88 250.5,95.5 258,95.5 252,100 254.5,107.5 248,103 241.5,107.5 244,100 238,95.5 245.5,95.5" transform="scale(0.45) translate(308,80)"/>
+  </g>
+
+  <!-- Brand name - MÉLANGE -->
+  <text x="200" y="68" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" fill="#2A1A08" text-anchor="middle" letter-spacing="5">MÉLANGE</text>
+
+  <!-- Decorative line with diamond -->
+  <line x1="88" y1="80" x2="155" y2="80" stroke="#FFC107" stroke-width="1.5"/>
+  <polygon points="200,74 204,80 200,86 196,80" fill="#FFC107"/>
+  <line x1="245" y1="80" x2="312" y2="80" stroke="#FFC107" stroke-width="1.5"/>
+
+  <!-- OF -->
+  <text x="200" y="100" font-family="Georgia, 'Times New Roman', serif" font-size="12" fill="#895129" text-anchor="middle" letter-spacing="6" font-style="italic">of</text>
+
+  <!-- FLAVOURS -->
+  <text x="200" y="126" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="700" fill="#895129" text-anchor="middle" letter-spacing="4">FLAVOURS</text>
+
+  <!-- Tagline -->
+  <text x="200" y="342" font-family="Georgia, 'Times New Roman', serif" font-size="10.5" fill="#A07840" text-anchor="middle" letter-spacing="2.5" font-style="italic">Global Recipes · Pantry Ingredients</text>
+
+  <!-- Bottom decorative line -->
+  <line x1="110" y1="353" x2="180" y2="353" stroke="#FFC107" stroke-width="1" opacity="0.7"/>
+  <circle cx="200" cy="353" r="3" fill="#FFC107" opacity="0.7"/>
+  <line x1="220" y1="353" x2="290" y2="353" stroke="#FFC107" stroke-width="1" opacity="0.7"/>
+
+  <!-- Corner wheat/leaf decorations -->
+  <g opacity="0.35" fill="#895129">
+    <!-- Top left -->
+    <ellipse cx="48" cy="55" rx="4" ry="9" transform="rotate(-35 48 55)"/>
+    <ellipse cx="38" cy="62" rx="4" ry="8" transform="rotate(-55 38 62)"/>
+    <ellipse cx="55" cy="48" rx="3.5" ry="7" transform="rotate(-15 55 48)"/>
+    <!-- Top right -->
+    <ellipse cx="352" cy="55" rx="4" ry="9" transform="rotate(35 352 55)"/>
+    <ellipse cx="362" cy="62" rx="4" ry="8" transform="rotate(55 362 62)"/>
+    <ellipse cx="345" cy="48" rx="3.5" ry="7" transform="rotate(15 345 48)"/>
+    <!-- Bottom left -->
+    <ellipse cx="48" cy="348" rx="4" ry="9" transform="rotate(35 48 348)"/>
+    <ellipse cx="38" cy="341" rx="4" ry="8" transform="rotate(55 38 341)"/>
+    <!-- Bottom right -->
+    <ellipse cx="352" cy="348" rx="4" ry="9" transform="rotate(-35 352 348)"/>
+    <ellipse cx="362" cy="341" rx="4" ry="8" transform="rotate(-55 362 341)"/>
+  </g>
+</svg>
