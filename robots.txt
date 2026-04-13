@@ -1,0 +1,8 @@
+# Mélange of Flavours — melangeofflavours.com
+# robots.txt — tells Google how to crawl the site
+
+User-agent: *
+Allow: /
+
+# Sitemap location — replace with your actual domain
+Sitemap: https://melangeofflavours.com/sitemap.xml
