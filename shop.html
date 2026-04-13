@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Mélange of Flavours</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.shop-section{background:var(--dark);padding:64px 48px;min-height:60vh}
+.shop-section .sec-tag{color:var(--honey)}
+.shop-section .sec-tag::before{background:var(--honey)}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
+.pc{background:rgba(255,193,7,.06);border:0.5px solid rgba(255,193,7,.14);border-radius:20px;padding:30px 26px;transition:all .28s;position:relative}
+.pc:hover{background:rgba(255,193,7,.1);border-color:rgba(255,193,7,.4);transform:translateY(-4px)}
+.pc.feat{border-color:var(--honey);background:rgba(255,193,7,.1)}
+.pbadge{position:absolute;top:16px;right:16px;background:var(--honey);color:var(--dark);font-size:9px;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.06em}
+.pico{font-size:34px;margin-bottom:18px;display:block}
+.pc h3{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:10px;line-height:1.4}
+.pc p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:16px}
+.plist{list-style:none;margin-bottom:20px}
+.plist li{font-size:12px;color:rgba(255,255,255,.55);padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:8px}
+.plist li::before{content:'✓';color:var(--honey);font-weight:700;font-size:11px}
+.pprice{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--honey);margin-bottom:3px}
+.pnote{font-size:10px;color:rgba(255,255,255,.3);margin-bottom:10px}
+.pppp{font-size:10px;color:rgba(255,193,7,.6);margin-bottom:18px;padding:6px 12px;background:rgba(255,193,7,.08);border-radius:8px}
+.pbtn{display:block;width:100%;padding:13px;background:var(--honey);color:var(--dark);border-radius:100px;text-align:center;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;text-decoration:none}
+.pbtn:hover{background:#FFD033;transform:translateY(-1px)}
+.ppp-box{margin-top:40px;background:rgba(255,193,7,.05);border:0.5px solid rgba(255,193,7,.22);border-radius:16px;padding:24px 32px;display:flex;align-items:center;gap:18px}
+.ppp-box h4{font-size:14px;font-weight:600;color:var(--honey);margin-bottom:5px}
+.ppp-box p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.65}
+.ppp-box strong{color:rgba(255,193,7,.8)}
+.faq-section{padding:64px 48px;background:var(--honey-light)}
+.faq{max-width:720px;margin:32px auto 0}
+.faq-item{background:white;border-radius:14px;margin-bottom:12px;overflow:hidden;border:0.5px solid rgba(137,81,41,.08)}
+.faq-q{padding:18px 22px;font-size:14px;font-weight:600;color:var(--dark);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q:hover{background:var(--honey-light)}
+.faq-arrow{font-size:12px;color:var(--brown);transition:transform .2s}
+.faq-a{padding:0 22px;font-size:13px;color:var(--text-mid);line-height:1.75;max-height:0;overflow:hidden;transition:all .3s ease}
+.faq-a.open{padding:0 22px 18px;max-height:200px}
+@media(max-width:900px){.shop-section,.faq-section{padding:48px 24px}.pg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Mélange <em>of Flavours</em></a>
+  <ul class="nav-links">
+    <li><a href="recipes.html" class="nl">Recipes</a></li>
+    <li><a href="shop.html" class="nl active">Shop</a></li>
+    <li><a href="workshops.html" class="nl">Workshops</a></li>
+    <li><a href="supper-club.html" class="nl">Supper Club</a></li>
+    <li><a href="contact.html" class="nl">Contact</a></li>
+    <li><a href="index.html#subscribe" class="nl cta">Free Guide ↓</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="recipes.html" onclick="closeMenu()">Recipes</a>
+    <a href="shop.html" onclick="closeMenu()">Shop</a>
+    <a href="workshops.html" onclick="closeMenu()">Workshops</a>
+    <a href="supper-club.html" onclick="closeMenu()">Supper Club</a>
+    <a href="contact.html" onclick="closeMenu()">Contact</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-tag">📦 Digital Products</div>
+    <h1 class="page-hero-title">Cook Global.<br><em>Shop Local.</em></h1>
+    <p class="page-hero-desc">Downloadable guides, recipe bundles, and meal plans — all designed for pantry-only cooking. Country-based pricing available.</p>
+  </div>
+</div>
+
+<section class="shop-section">
+  <div class="sec-tag">All products</div>
+  <h2 class="sec-title white">Everything in the <em>shop</em></h2>
+  <div class="pg">
+
+    <div class="pc feat">
+      <span class="pbadge">Most popular</span>
+      <span class="pico">📋</span>
+      <h3>The Global Pantry Swap Guide</h3>
+      <p>Your cheat sheet for replacing any specialty ingredient with pantry staples.</p>
+      <ul class="plist">
+        <li>50 ingredient substitutions</li>
+        <li>Organised by cuisine</li>
+        <li>Instant PDF download</li>
+        <li>Works worldwide</li>
+      </ul>
+      <div class="pprice">$9.99</div>
+      <div class="pnote">one-time download</div>
+      <div class="pppp">🇮🇳 India: use code <strong>INDIA50</strong> for 50% off</div>
+      <a href="https://gumroad.com" target="_blank" class="pbtn">Get the guide →</a>
+    </div>
+
+    <div class="pc">
+      <span class="pico">📖</span>
+      <h3>10 Global Recipes, Zero Specialty Stores</h3>
+      <p>Ten complete recipes from ten different cuisines — all pantry-based.</p>
+      <ul class="plist">
+        <li>10 full recipes with photos</li>
+        <li>Substitution notes on every dish</li>
+        <li>Shopping list included</li>
+        <li>Instant PDF download</li>
+      </ul>
+      <div class="pprice">$14.99</div>
+      <div class="pnote">one-time download</div>
+      <div class="pppp">Use code <strong>GLOBAL30</strong> for 30% off</div>
+      <a href="https://gumroad.com" target="_blank" class="pbtn">Download now →</a>
+    </div>
+
+    <div class="pc">
+      <span class="pico">🗓️</span>
+      <h3>Monthly Meal Plan + Shopping List</h3>
+      <p>4 weeks of global recipes with a full shopping list every month.</p>
+      <ul class="plist">
+        <li>28 days of recipes</li>
+        <li>Organised shopping list</li>
+        <li>Pantry swap notes included</li>
+        <li>New plan every month</li>
+      </ul>
+      <div class="pprice">$5.99</div>
+      <div class="pnote">per month</div>
+      <div class="pppp">Use code <strong>INDIA50</strong> for 50% off</div>
+      <a href="https://gumroad.com" target="_blank" class="pbtn">Subscribe →</a>
+    </div>
+
+    <div class="pc">
+      <span class="pico">🌏</span>
+      <h3>Asian Cuisine Bundle</h3>
+      <p>Japanese, Korean, Thai, and Vietnamese — 20 recipes, all pantry ingredients.</p>
+      <ul class="plist">
+        <li>20 Asian recipes</li>
+        <li>4 cuisines covered</li>
+        <li>Pantry swaps for every dish</li>
+        <li>Instant PDF download</li>
+      </ul>
+      <div class="pprice">$19.99</div>
+      <div class="pnote">one-time download</div>
+      <div class="pppp">Use code <strong>GLOBAL30</strong> for 30% off</div>
+      <a href="https://gumroad.com" target="_blank" class="pbtn">Get the bundle →</a>
+    </div>
+
+    <div class="pc">
+      <span class="pico">🫙</span>
+      <h3>The Pantry Essentials Starter Guide</h3>
+      <p>Build a global pantry for under ₹2000/$25. Know what to stock and why.</p>
+      <ul class="plist">
+        <li>50 must-have pantry items</li>
+        <li>Spice blending guide</li>
+        <li>Budget shopping tips</li>
+        <li>Instant PDF download</li>
+      </ul>
+      <div class="pprice">$7.99</div>
+      <div class="pnote">one-time download</div>
+      <div class="pppp">Use code <strong>INDIA50</strong> for 50% off</div>
+      <a href="https://gumroad.com" target="_blank" class="pbtn">Get the guide →</a>
+    </div>
+
+    <div class="pc">
+      <span class="pico">📚</span>
+      <h3>The Complete Global Pantry Cookbook</h3>
+      <p>40+ recipes across 15 cuisines. The most comprehensive guide I've made.</p>
+      <ul class="plist">
+        <li>40+ full recipes</li>
+        <li>15 world cuisines</li>
+        <li>Beautiful food photography</li>
+        <li>Lifetime access</li>
+      </ul>
+      <div class="pprice">$39.99</div>
+      <div class="pnote">one-time download</div>
+      <div class="pppp">Use code <strong>GLOBAL30</strong> for 30% off</div>
+      <a href="https://gumroad.com" target="_blank" class="pbtn">Get the cookbook →</a>
+    </div>
+
+  </div>
+
+  <div class="ppp-box">
+    <div style="font-size:28px;flex-shrink:0">🌏</div>
+    <div>
+      <h4>Country-based pricing available</h4>
+      <p>India &amp; South Asia: <strong>INDIA50</strong> (50% off) · Southeast Asia &amp; Africa: <strong>GLOBAL30</strong> (30% off) · Full price for US, UK, EU, Australia. Good food knowledge should be accessible everywhere.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div style="text-align:center">
+    <div class="sec-tag center">Questions</div>
+    <h2 class="sec-title center">Frequently <em>asked</em></h2>
+  </div>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I receive my download? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">After payment you'll receive an instant download link via email from Gumroad. You can download your PDF immediately and as many times as you need.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I get a refund? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Because these are digital products, all sales are final. If you have any issue with your download, please contact me via the contact page and I'll help you right away.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Do the recipes work outside India? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Absolutely — that's the whole point! Every recipe uses ingredients available in any standard supermarket worldwide. The pantry swap guide covers US, UK, European, Australian, and Indian supermarket equivalents.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do the discount codes work? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Apply the code at checkout on Gumroad. INDIA50 gives 50% off for buyers in India and South Asia. GLOBAL30 gives 30% off for buyers in Southeast Asia and Africa. These codes are offered to make the guides accessible to everyone.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <a href="index.html" class="fl">Mélange <em>of Flavours</em></a>
+    <p class="fp">Global recipes. Pantry ingredients. No specialty store needed. · Bengaluru, India</p>
+  </div>
+  <ul class="flinks">
+    <li><a href="recipes.html">Recipes</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="supper-club.html">Supper Club</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open')}
+function closeMenu(){document.getElementById('mobile-menu').classList.remove('open')}
+function toggleFaq(el){
+  const ans=el.nextElementSibling,arr=el.querySelector('.faq-arrow');
+  const isOpen=ans.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
+  document.querySelectorAll('.faq-arrow').forEach(a=>a.style.transform='');
+  if(!isOpen){ans.classList.add('open');arr.style.transform='rotate(180deg)'}
+}
+</script>
+</body>
+</html>
