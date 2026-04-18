@@ -209,12 +209,10 @@
 
 <div id="tip"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
 /* ════════════════════════════════════════════
-   RECIPE DATA
-   To add a new recipe, copy one block and fill in:
+   RECIPE DATA — add new recipes here
+════════════════════════════════════════════ */
    id, name, country, countryCode (ISO numeric from list below),
    region, heroIngredient, flag (emoji), image (URL),
    time, servings, quickCook (true if under 20 mins),
@@ -342,157 +340,354 @@ function clearSearch(){searchQuery='';document.getElementById('si').value='';fil
 function removeLabel(l){activeLabels.delete(l);const b=document.querySelector(`[data-label="${l}"]`);if(b)b.classList.remove('active');if(!activeLabels.size)document.querySelector('[data-label="all"]').classList.add('active');filter();}
 function clearAll(){activeLabels.clear();selectedCountry=null;searchQuery='';document.getElementById('si').value='';document.querySelectorAll('.lp').forEach(p=>p.classList.remove('active'));document.querySelector('[data-label="all"]').classList.add('active');document.getElementById('mb').classList.remove('show');updateMap();filter();}
 
-/* ── MAP — Dark brown, white outlines, hover highlight ── */
+/* ══════════════════════════════════════════════════════
+   SELF-CONTAINED WORLD MAP — zero external dependencies
+   Mollweide equal-area projection, pure vanilla JS + SVG
+   ══════════════════════════════════════════════════════ */
 
-const COUNTRY_BASE = 'rgba(255,255,255,0.08)';   /* default fill — very dark */
-const COUNTRY_HOVER = '#FFC107';                   /* honey on hover */
-const COUNTRY_SELECTED = '#E8A020';               /* slightly deeper when locked */
-const OCEAN_COLOR = '#1C1008';                    /* same as --dark */
-const BORDER_COLOR = 'rgba(255,255,255,0.3)';
+const COUNTRY_BASE   = 'rgba(255,255,255,0.08)';
+const COUNTRY_HOVER  = '#FFC107';
+const COUNTRY_SEL    = '#E8A020';
+const BORDER_COL     = 'rgba(255,255,255,0.28)';
+const MAP_CX=480, MAP_CY=250, MAP_SCALE=152;
 
-let hoveredId = null;
+/* Mollweide projection: lon/lat (degrees) → SVG x,y */
+function moll(lon, lat) {
+  const lam = lon * Math.PI / 180;
+  const phi = lat * Math.PI / 180;
+  if (Math.abs(Math.abs(phi) - Math.PI/2) < 1e-4) {
+    return [MAP_CX, MAP_CY - Math.sign(lat) * MAP_SCALE * Math.SQRT2];
+  }
+  let th = phi;
+  for (let i = 0; i < 30; i++) {
+    const d = -(2*th + Math.sin(2*th) - Math.PI*Math.sin(phi)) / (2 + 2*Math.cos(2*th));
+    th += d;
+    if (Math.abs(d) < 1e-9) break;
+  }
+  return [
+    +(MAP_CX + MAP_SCALE * (2*Math.SQRT2/Math.PI) * lam * Math.cos(th)).toFixed(1),
+    +(MAP_CY - MAP_SCALE * Math.SQRT2 * Math.sin(th)).toFixed(1)
+  ];
+}
 
-function getCountryFill(id) {
-  if (id === selectedCountry) return COUNTRY_SELECTED;
-  return COUNTRY_BASE;
+function pts(coords) {
+  return coords.map(([lo,la]) => moll(lo,la).join(',')).join(' ');
+}
+
+/* ── COUNTRY SHAPES [lon,lat] approximate outlines ──
+   Largest first so smaller countries render on top.
+   To add a country: {id:ISO_NUMERIC, name:'...', coords:[[lon,lat],...]}
+   ─────────────────────────────────────────────────── */
+const CMAP = [
+  /* ── RUSSIA ── */
+  {id:643,name:'Russia',coords:[[28,50],[145,50],[145,72],[80,72],[60,68],[28,68]]},
+  /* ── CANADA ── */
+  {id:124,name:'Canada',coords:[[-140,49],[-55,47],[-53,60],[-64,68],[-95,72],[-140,66]]},
+  /* ── CHINA ── */
+  {id:156,name:'China',coords:[[73,18],[135,18],[135,53],[100,53],[73,40]]},
+  /* ── USA ── */
+  {id:840,name:'United States',coords:[[-125,25],[-66,25],[-66,49],[-97,49],[-125,49]]},
+  /* ── BRAZIL ── */
+  {id:76,name:'Brazil',coords:[[-74,5],[-35,5],[-35,-15],[-50,-33],[-74,-25]]},
+  /* ── AUSTRALIA ── */
+  {id:36,name:'Australia',coords:[[114,-10],[154,-10],[154,-44],[129,-38],[114,-30]]},
+  /* ── INDIA ── */
+  {id:356,name:'India',coords:[[68,8],[78,8],[92,21],[92,28],[78,35],[68,28],[72,16]]},
+  /* ── INDONESIA ── */
+  {id:360,name:'Indonesia',coords:[[95,-8],[141,-8],[141,2],[120,4],[95,4]]},
+  /* ── ARGENTINA ── */
+  {id:32,name:'Argentina',coords:[[-73,-55],[-53,-55],[-53,-22],[-68,-22],[-73,-38]]},
+  /* ── KAZAKHSTAN ── */
+  {id:398,name:'Kazakhstan',coords:[[51,41],[87,41],[87,55],[51,55]]},
+  /* ── ALGERIA ── */
+  {id:12,name:'Algeria',coords:[[-2,19],[12,19],[12,37],[-2,37]]},
+  /* ── DR CONGO ── */
+  {id:180,name:'DR Congo',coords:[[12,-13],[31,-13],[31,5],[12,5]]},
+  /* ── SAUDI ARABIA ── */
+  {id:682,name:'Saudi Arabia',coords:[[36,16],[56,16],[56,32],[36,32]]},
+  /* ── MEXICO ── */
+  {id:484,name:'Mexico',coords:[[-118,32],[-86,32],[-86,15],[-90,18],[-118,28]]},
+  /* ── SUDAN ── */
+  {id:729,name:'Sudan',coords:[[22,8],[38,8],[38,22],[22,22]]},
+  /* ── LIBYA ── */
+  {id:434,name:'Libya',coords:[[9,20],[25,20],[25,33],[9,33]]},
+  /* ── IRAN ── */
+  {id:364,name:'Iran',coords:[[44,25],[64,25],[64,40],[44,40]]},
+  /* ── MONGOLIA ── */
+  {id:496,name:'Mongolia',coords:[[87,42],[120,42],[120,52],[87,52]]},
+  /* ── PERU ── */
+  {id:604,name:'Peru',coords:[[-81,-18],[-68,-18],[-68,-3],[-81,-3]]},
+  /* ── ANGOLA ── */
+  {id:24,name:'Angola',coords:[[12,-18],[24,-18],[24,-5],[12,-5]]},
+  /* ── NIGERIA ── */
+  {id:566,name:'Nigeria',coords:[[3,4],[15,4],[15,14],[3,14]]},
+  /* ── EGYPT ── */
+  {id:818,name:'Egypt',coords:[[25,22],[35,22],[35,31],[25,31]]},
+  /* ── ETHIOPIA ── */
+  {id:231,name:'Ethiopia',coords:[[33,3],[48,3],[48,15],[33,15]]},
+  /* ── SOUTH AFRICA ── */
+  {id:710,name:'South Africa',coords:[[17,-35],[33,-35],[33,-22],[17,-22]]},
+  /* ── PAKISTAN ── */
+  {id:586,name:'Pakistan',coords:[[60,24],[76,24],[76,37],[60,37]]},
+  /* ── TURKEY ── */
+  {id:792,name:'Turkey',coords:[[26,36],[45,36],[45,42],[26,42]]},
+  /* ── UKRAINE ── */
+  {id:804,name:'Ukraine',coords:[[22,44],[40,44],[40,52],[22,52]]},
+  /* ── MYANMAR ── */
+  {id:104,name:'Myanmar',coords:[[92,10],[102,10],[102,28],[92,28]]},
+  /* ── COLOMBIA ── */
+  {id:170,name:'Colombia',coords:[[-79,12],[-66,12],[-66,-4],[-79,-4]]},
+  /* ── BOLIVIA ── */
+  {id:68,name:'Bolivia',coords:[[-70,-22],[-57,-22],[-57,-10],[-70,-10]]},
+  /* ── MOZAMBIQUE ── */
+  {id:508,name:'Mozambique',coords:[[32,-26],[36,-26],[36,-10],[32,-10]]},
+  /* ── CHILE ── */
+  {id:152,name:'Chile',coords:[[-76,-56],[-66,-56],[-66,-17],[-76,-17]]},
+  /* ── ZAMBIA ── */
+  {id:894,name:'Zambia',coords:[[22,-18],[33,-18],[33,-8],[22,-8]]},
+  /* ── MOROCCO ── */
+  {id:504,name:'Morocco',coords:[[-13,27],[-1,27],[-1,36],[-5,36],[-13,35]]},
+  /* ── VENEZUELA ── */
+  {id:862,name:'Venezuela',coords:[[-73,12],[-60,12],[-60,4],[-73,4]]},
+  /* ── NAMIBIA ── */
+  {id:516,name:'Namibia',coords:[[12,-29],[20,-29],[20,-17],[12,-17]]},
+  /* ── ZIMBABWE ── */
+  {id:716,name:'Zimbabwe',coords:[[25,-22],[33,-22],[33,-16],[25,-16]]},
+  /* ── IRAQ ── */
+  {id:368,name:'Iraq',coords:[[38,29],[49,29],[49,38],[38,38]]},
+  /* ── THAILAND ── */
+  {id:764,name:'Thailand',coords:[[97,6],[106,6],[106,21],[97,21]]},
+  /* ── FRANCE ── */
+  {id:250,name:'France',coords:[[-5,43],[8,43],[8,49],[3,51],[-2,49],[-5,47]]},
+  /* ── SPAIN ── */
+  {id:724,name:'Spain',coords:[[-9,36],[4,36],[4,44],[-9,44]]},
+  /* ── KENYA ── */
+  {id:404,name:'Kenya',coords:[[34,-5],[42,-5],[42,5],[34,5]]},
+  /* ── VIETNAM ── */
+  {id:704,name:'Vietnam',coords:[[102,8],[109,8],[109,23],[102,23]]},
+  /* ── CAMEROON ── */
+  {id:120,name:'Cameroon',coords:[[8,2],[16,2],[16,13],[8,13]]},
+  /* ── MADAGASCAR ── */
+  {id:450,name:'Madagascar',coords:[[43,-26],[50,-26],[50,-12],[43,-12]]},
+  /* ── GERMANY ── */
+  {id:276,name:'Germany',coords:[[6,47],[15,47],[15,55],[6,55]]},
+  /* ── SWEDEN ── */
+  {id:752,name:'Sweden',coords:[[11,56],[24,56],[24,69],[11,69]]},
+  /* ── NORWAY ── */
+  {id:578,name:'Norway',coords:[[4,58],[32,58],[32,71],[4,71]]},
+  /* ── FINLAND ── */
+  {id:246,name:'Finland',coords:[[20,60],[32,60],[32,70],[20,70]]},
+  /* ── POLAND ── */
+  {id:616,name:'Poland',coords:[[14,49],[24,49],[24,55],[14,55]]},
+  /* ── GHANA ── */
+  {id:288,name:'Ghana',coords:[[-3,5],[2,5],[2,11],[-3,11]]},
+  /* ── MALAYSIA ── */
+  {id:458,name:'Malaysia',coords:[[100,1],[119,1],[119,7],[100,7]]},
+  /* ── SOUTH KOREA ── */
+  {id:410,name:'South Korea',coords:[[126,34],[130,34],[130,38],[126,38]]},
+  /* ── NORTH KOREA ── */
+  {id:408,name:'North Korea',coords:[[124,38],[131,38],[131,43],[124,43]]},
+  /* ── PHILIPPINES ── */
+  {id:608,name:'Philippines',coords:[[118,5],[127,5],[127,20],[118,20]]},
+  /* ── TAIWAN ── */
+  {id:158,name:'Taiwan',coords:[[120,22],[122,22],[122,25],[120,25]]},
+  /* ── CAMBODIA ── */
+  {id:116,name:'Cambodia',coords:[[102,10],[108,10],[108,14],[102,14]]},
+  /* ── LAOS ── */
+  {id:418,name:'Laos',coords:[[100,14],[107,14],[107,23],[100,23]]},
+  /* ── BANGLADESH ── */
+  {id:50,name:'Bangladesh',coords:[[88,21],[93,21],[93,26],[88,26]]},
+  /* ── NEPAL ── */
+  {id:524,name:'Nepal',coords:[[80,27],[88,27],[88,30],[80,30]]},
+  /* ── SRI LANKA ── */
+  {id:144,name:'Sri Lanka',coords:[[80,6],[82,6],[82,10],[80,10]]},
+  /* ── NEW ZEALAND ── */
+  {id:554,name:'New Zealand',coords:[[166,-47],[178,-47],[178,-34],[166,-34]]},
+  /* ── GREECE ── */
+  {id:300,name:'Greece',coords:[[20,36],[27,36],[27,42],[20,42]]},
+  /* ── ROMANIA ── */
+  {id:642,name:'Romania',coords:[[22,43],[30,43],[30,48],[22,48]]},
+  /* ── CZECH REPUBLIC ── */
+  {id:203,name:'Czech Republic',coords:[[12,48],[18,48],[18,51],[12,51]]},
+  /* ── HUNGARY ── */
+  {id:348,name:'Hungary',coords:[[16,45],[22,45],[22,48],[16,48]]},
+  /* ── ITALY ── */
+  {id:380,name:'Italy',coords:[[7,44],[14,44],[18,41],[16,37],[13,37],[12,42],[8,46]]},
+  /* ── PORTUGAL ── */
+  {id:620,name:'Portugal',coords:[[-9,37],[-6,37],[-6,42],[-9,42]]},
+  /* ── UK ── */
+  {id:826,name:'United Kingdom',coords:[[-5,50],[2,51],[2,58],[-4,59],[-6,56],[-5,50]]},
+  /* ── IRELAND ── */
+  {id:372,name:'Ireland',coords:[[-10,52],[-6,52],[-6,55],[-10,55]]},
+  /* ── NETHERLANDS ── */
+  {id:528,name:'Netherlands',coords:[[4,51],[7,51],[7,53],[4,53]]},
+  /* ── BELGIUM ── */
+  {id:56,name:'Belgium',coords:[[3,49],[6,49],[6,51],[3,51]]},
+  /* ── JORDAN ── */
+  {id:400,name:'Jordan',coords:[[35,29],[39,29],[39,33],[35,33]]},
+  /* ── ISRAEL ── */
+  {id:376,name:'Israel',coords:[[34,29],[36,29],[36,33],[34,33]]},
+  /* ── LEBANON ── */
+  {id:422,name:'Lebanon',coords:[[35,33],[37,33],[37,35],[35,35]]},
+  /* ── SYRIA ── */
+  {id:760,name:'Syria',coords:[[36,32],[42,32],[42,37],[36,37]]},
+  /* ── UAE ── */
+  {id:784,name:'UAE',coords:[[51,22],[56,22],[56,26],[51,26]]},
+  /* ── QATAR ── */
+  {id:634,name:'Qatar',coords:[[50,24],[52,24],[52,26],[50,26]]},
+  /* ── YEMEN ── */
+  {id:887,name:'Yemen',coords:[[42,12],[55,12],[55,18],[42,18]]},
+  /* ── TUNISIA ── */
+  {id:788,name:'Tunisia',coords:[[7,30],[12,30],[12,37],[7,37]]},
+  /* ── SENEGAL ── */
+  {id:686,name:'Senegal',coords:[[-17,12],[-11,12],[-11,16],[-17,16]]},
+  /* ── UGANDA ── */
+  {id:800,name:'Uganda',coords:[[29,-1],[35,-1],[35,4],[29,4]]},
+  /* ── ECUADOR ── */
+  {id:218,name:'Ecuador',coords:[[-81,-5],[-75,-5],[-75,2],[-81,2]]},
+  /* ── URUGUAY ── */
+  {id:858,name:'Uruguay',coords:[[-58,-35],[-53,-35],[-53,-30],[-58,-30]]},
+  /* ── CUBA ── */
+  {id:192,name:'Cuba',coords:[[-85,20],[-75,20],[-75,23],[-85,23]]},
+  /* ── JAMAICA ── */
+  {id:388,name:'Jamaica',coords:[[-78,17],[-76,17],[-76,18.5],[-78,18.5]]},
+  /* ── TRINIDAD ── */
+  {id:780,name:'Trinidad and Tobago',coords:[[-62,10],[-60,10],[-60,11],[-62,11]]},
+  /* ── JAPAN (simplified 3 islands) ── */
+  {id:392,name:'Japan',coords:[[130,31],[132,31],[135,33],[140,35],[141,38],[141,40],[138,40],[136,35],[130,34]]},
+];
+
+/* ── BUILD THE MAP ── */
+function buildMap() {
+  const svg = document.getElementById('world-map');
+  svg.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  /* Ocean ellipse — Mollweide outer boundary */
+  const rx = +(MAP_SCALE * 2 * Math.SQRT2).toFixed(1);
+  const ry = +(MAP_SCALE * Math.SQRT2).toFixed(1);
+  const ocean = document.createElementNS(ns,'ellipse');
+  ocean.setAttribute('cx', MAP_CX);
+  ocean.setAttribute('cy', MAP_CY);
+  ocean.setAttribute('rx', rx);
+  ocean.setAttribute('ry', ry);
+  ocean.setAttribute('fill', '#1C1008');
+  svg.appendChild(ocean);
+
+  /* Graticule — lat/lon grid lines */
+  [[-60,-30,0,30,60]].flat().forEach(lat => {
+    const line = document.createElementNS(ns,'polyline');
+    const pArr = [];
+    for (let lo=-180;lo<=180;lo+=4) pArr.push(moll(lo,lat).join(','));
+    line.setAttribute('points', pArr.join(' '));
+    line.setAttribute('fill','none');
+    line.setAttribute('stroke','rgba(255,255,255,0.05)');
+    line.setAttribute('stroke-width','0.5');
+    svg.appendChild(line);
+  });
+  [-120,-60,0,60,120].forEach(lon => {
+    const line = document.createElementNS(ns,'polyline');
+    const pArr = [];
+    for (let la=-80;la<=80;la+=4) pArr.push(moll(lon,la).join(','));
+    line.setAttribute('points', pArr.join(' '));
+    line.setAttribute('fill','none');
+    line.setAttribute('stroke','rgba(255,255,255,0.05)');
+    line.setAttribute('stroke-width','0.5');
+    svg.appendChild(line);
+  });
+
+  /* Countries */
+  CMAP.forEach(c => {
+    const poly = document.createElementNS(ns,'polygon');
+    poly.setAttribute('points', pts(c.coords));
+    poly.setAttribute('fill', COUNTRY_BASE);
+    poly.setAttribute('stroke', BORDER_COL);
+    poly.setAttribute('stroke-width','0.4');
+    poly.setAttribute('data-id', c.id);
+    poly.classList.add('cp');
+    if (recipeCodes.has(c.id)) poly.classList.add('clickable');
+
+    const tip = document.getElementById('tip');
+
+    poly.addEventListener('mouseover', function() {
+      if (c.id !== selectedCountry) {
+        poly.setAttribute('fill', COUNTRY_HOVER);
+        poly.setAttribute('stroke','rgba(255,255,255,0.7)');
+        poly.setAttribute('stroke-width','0.8');
+      }
+      const n = RECIPES.filter(r=>r.countryCode===c.id).length;
+      tip.style.display='block';
+      tip.innerHTML=`<strong style="font-size:13px">${c.name}</strong><br>
+        ${n>0
+          ?`<span style="color:#FFC107">🍽 ${n} recipe${n>1?'s':''}</span><br><span style="font-size:10px;color:rgba(255,255,255,.4)">Click to filter</span>`
+          :`<span style="color:rgba(255,255,255,.4)">No recipes yet</span>`}`;
+    });
+    poly.addEventListener('mousemove', ev => {
+      tip.style.left=(ev.clientX+16)+'px';
+      tip.style.top=(ev.clientY-12)+'px';
+    });
+    poly.addEventListener('mouseout', function() {
+      if (c.id !== selectedCountry) {
+        poly.setAttribute('fill', COUNTRY_BASE);
+        poly.setAttribute('stroke', BORDER_COL);
+        poly.setAttribute('stroke-width','0.4');
+      }
+      tip.style.display='none';
+    });
+    poly.addEventListener('click', function() {
+      if (!recipeCodes.has(c.id)) return;
+      if (selectedCountry===c.id) {
+        clearCountry();
+      } else {
+        /* Restore old selected country */
+        if (selectedCountry) {
+          const old=document.querySelector(`[data-id="${selectedCountry}"]`);
+          if(old){old.setAttribute('fill',COUNTRY_BASE);old.setAttribute('stroke',BORDER_COL);old.setAttribute('stroke-width','0.4');}
+        }
+        selectedCountry=c.id;
+        poly.setAttribute('fill',COUNTRY_SEL);
+        poly.setAttribute('stroke','white');
+        poly.setAttribute('stroke-width','1.2');
+        const n=RECIPES.filter(r=>r.countryCode===c.id).length;
+        document.getElementById('mbt').textContent=`${c.name} — ${n} recipe${n>1?'s':''} found`;
+        document.getElementById('mb').classList.add('show');
+        filter();
+        setTimeout(()=>document.querySelector('.results-bar').scrollIntoView({behavior:'smooth',block:'start'}),120);
+      }
+    });
+    svg.appendChild(poly);
+  });
+
+  /* Outer ellipse border on top */
+  const border = document.createElementNS(ns,'ellipse');
+  border.setAttribute('cx', MAP_CX);
+  border.setAttribute('cy', MAP_CY);
+  border.setAttribute('rx', rx);
+  border.setAttribute('ry', ry);
+  border.setAttribute('fill','none');
+  border.setAttribute('stroke','rgba(255,255,255,0.12)');
+  border.setAttribute('stroke-width','1');
+  svg.appendChild(border);
 }
 
 function updateMap() {
-  d3.selectAll('.cp')
-    .attr('fill', function() { return getCountryFill(+this.dataset.id); })
-    .attr('stroke', function() {
-      const id = +this.dataset.id;
-      return id === selectedCountry ? COUNTRY_SELECTED : BORDER_COLOR;
-    })
-    .attr('stroke-width', function() {
-      return +this.dataset.id === selectedCountry ? 1.2 : 0.4;
-    });
+  CMAP.forEach(c => {
+    const el = document.querySelector(`[data-id="${c.id}"]`);
+    if (!el) return;
+    if (c.id === selectedCountry) {
+      el.setAttribute('fill', COUNTRY_SEL);
+      el.setAttribute('stroke','white');
+      el.setAttribute('stroke-width','1.2');
+    } else {
+      el.setAttribute('fill', COUNTRY_BASE);
+      el.setAttribute('stroke', BORDER_COL);
+      el.setAttribute('stroke-width','0.4');
+    }
+  });
 }
 
-fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-  .then(r => r.json())
-  .then(world => {
-    const W = 960, H = 500;
-    const countries = topojson.feature(world, world.objects.countries);
-    const svg = d3.select('#world-map');
-    const tip = document.getElementById('tip');
-
-    /* Mollweide projection */
-    const proj = d3.geoMollweide()
-      .scale(153)
-      .translate([W / 2, H / 2]);
-
-    const path = d3.geoPath().projection(proj);
-    const sphere = { type: 'Sphere' };
-
-    /* Ocean background */
-    svg.append('path')
-      .datum(sphere)
-      .attr('d', path)
-      .attr('fill', OCEAN_COLOR);
-
-    /* Subtle graticule */
-    const graticule = d3.geoGraticule().step([30, 30]);
-    svg.append('path')
-      .datum(graticule())
-      .attr('d', path)
-      .attr('fill', 'none')
-      .attr('stroke', 'rgba(255,255,255,0.06)')
-      .attr('stroke-width', 0.5);
-
-    /* Countries */
-    svg.selectAll('.cp')
-      .data(countries.features)
-      .join('path')
-      .attr('class', d => 'cp' + (recipeCodes.has(+d.id) ? ' clickable' : ''))
-      .attr('data-id', d => d.id)
-      .attr('d', path)
-      .attr('fill', COUNTRY_BASE)
-      .attr('stroke', BORDER_COLOR)
-      .attr('stroke-width', 0.4)
-      /* HOVER: light up only the country under the cursor */
-      .on('mouseover', function(ev, d) {
-        const id = +d.id;
-        if (id !== selectedCountry) {
-          d3.select(this)
-            .attr('fill', COUNTRY_HOVER)
-            .attr('stroke', 'white')
-            .attr('stroke-width', 0.8);
-        }
-        const name = CN[id];
-        if (!name) return;
-        const n = RECIPES.filter(r => r.countryCode === id).length;
-        tip.style.display = 'block';
-        tip.innerHTML = `<strong style="font-size:13px">${name}</strong><br>
-          ${n > 0
-            ? `<span style="color:#FFC107">🍽 ${n} recipe${n > 1 ? 's' : ''}</span><br>
-               <span style="color:rgba(255,255,255,.4);font-size:10px">Click to filter</span>`
-            : `<span style="color:rgba(255,255,255,.4)">No recipes yet</span>`}`;
-      })
-      .on('mousemove', function(ev) {
-        tip.style.left = (ev.clientX + 16) + 'px';
-        tip.style.top = (ev.clientY - 12) + 'px';
-      })
-      .on('mouseout', function(ev, d) {
-        const id = +d.id;
-        /* Restore to base or selected colour when cursor leaves */
-        d3.select(this)
-          .attr('fill', getCountryFill(id))
-          .attr('stroke', id === selectedCountry ? COUNTRY_SELECTED : BORDER_COLOR)
-          .attr('stroke-width', id === selectedCountry ? 1.2 : 0.4);
-        tip.style.display = 'none';
-      })
-      .on('click', function(ev, d) {
-        const id = +d.id;
-        if (!recipeCodes.has(id)) return;
-        if (selectedCountry === id) {
-          clearCountry();
-        } else {
-          /* Deselect old */
-          if (selectedCountry) {
-            d3.selectAll(`[data-id="${selectedCountry}"]`)
-              .attr('fill', COUNTRY_BASE)
-              .attr('stroke', BORDER_COLOR)
-              .attr('stroke-width', 0.4);
-          }
-          selectedCountry = id;
-          /* Lock colour on selected country */
-          d3.select(this)
-            .attr('fill', COUNTRY_SELECTED)
-            .attr('stroke', COUNTRY_SELECTED)
-            .attr('stroke-width', 1.2);
-
-          const name = CN[id] || 'Unknown';
-          const n = RECIPES.filter(r => r.countryCode === id).length;
-          document.getElementById('mbt').textContent =
-            `${name} — ${n} recipe${n > 1 ? 's' : ''} found`;
-          document.getElementById('mb').classList.add('show');
-          filter();
-          setTimeout(() => document.querySelector('.results-bar')
-            .scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-        }
-      });
-
-    /* Sphere outline on top */
-    svg.append('path')
-      .datum(sphere)
-      .attr('d', path)
-      .attr('fill', 'none')
-      .attr('stroke', 'rgba(255,255,255,0.15)')
-      .attr('stroke-width', 1);
-  })
-  .catch(() => {
-    document.getElementById('world-map').innerHTML =
-      `<rect width="960" height="500" fill="#1C1008"/>
-       <text x="480" y="245" fill="rgba(255,255,255,.3)" text-anchor="middle"
-         font-family="DM Sans,sans-serif" font-size="13">
-         Map requires an internet connection to load.
-       </text>
-       <text x="480" y="268" fill="rgba(255,255,255,.2)" text-anchor="middle"
-         font-family="DM Sans,sans-serif" font-size="11">
-         Search and filter below still works.
-       </text>`;
-  });
+/* Build map immediately — no fetch, no internet needed */
+buildMap();
 
 render();
 function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open')}
