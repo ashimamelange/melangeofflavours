@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshops — Mélange of Flavours</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.workshops-section{padding:64px 48px;background:var(--honey-light)}
+.wg{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:40px}
+.wc{background:white;border-radius:20px;overflow:hidden;display:grid;grid-template-columns:7px 1fr;transition:all .3s;border:0.5px solid rgba(137,81,41,.08)}
+.wc:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(137,81,41,.12)}
+.ws{} /* stripe */
+.wb{padding:28px}
+.wtype{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.wb h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px;line-height:1.3}
+.wb p{font-size:13px;color:var(--text-mid);line-height:1.7;margin-bottom:16px}
+.wdetails{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.wdetail{background:var(--honey-light);padding:10px 14px;border-radius:10px}
+.wdetail-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);margin-bottom:3px}
+.wdetail-val{font-size:13px;font-weight:600;color:var(--dark)}
+.wchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.what-youll-learn{margin-bottom:20px}
+.what-youll-learn h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brown);margin-bottom:10px}
+.what-youll-learn ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.what-youll-learn li{font-size:12px;color:var(--text-mid);display:flex;align-items:center;gap:8px}
+.what-youll-learn li::before{content:'🍳';font-size:11px}
+.wbtns{display:flex;gap:10px;flex-wrap:wrap}
+/* Course section */
+.course-section{padding:64px 48px;background:var(--dark);position:relative;overflow:hidden}
+.course-section::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,193,7,.07),transparent);pointer-events:none}
+.course-section .sec-tag{color:var(--honey)}
+.course-section .sec-tag::before{background:var(--honey)}
+.course-card{background:rgba(255,193,7,.07);border:0.5px solid rgba(255,193,7,.2);border-radius:20px;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:36px;position:relative;z-index:1}
+.course-card .price-big{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:var(--honey);line-height:1;margin-bottom:4px}
+.course-card .price-note{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px}
+.module-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.module-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.05);border-radius:10px}
+.module-num{width:28px;height:28px;border-radius:50%;background:var(--honey);color:var(--dark);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.module-text{font-size:12px;color:rgba(255,255,255,.7)}
+/* How it works */
+.how-it-works{padding:64px 48px;background:white;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px}
+.step{padding:28px 20px;border-radius:16px;background:var(--honey-light);border:0.5px solid rgba(137,81,41,.08)}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--honey);color:var(--dark);font-family:'Playfair Display',serif;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.step h4{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:8px}
+.step p{font-size:12px;color:var(--text-mid);line-height:1.6}
+/* ── THERAPY SECTION ── */
+.therapy-section{padding:72px 48px;background:white;position:relative;overflow:hidden}
+.therapy-section::before{content:'';position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,193,7,.07),transparent);pointer-events:none}
+.therapy-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:40px}
+.therapy-card{background:linear-gradient(160deg,var(--honey-light),#FFF8E1);border:0.5px solid rgba(137,81,41,.12);border-radius:24px;padding:40px;position:relative;overflow:hidden}
+.therapy-card::after{content:'🧘';position:absolute;bottom:-16px;right:-8px;font-size:80px;opacity:.07;pointer-events:none}
+.therapy-price{display:flex;align-items:baseline;gap:8px;margin:20px 0}
+.therapy-price .amount{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:var(--brown)}
+.therapy-price .period{font-size:13px;color:var(--text-light)}
+.therapy-includes{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.therapy-includes li{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text-mid);line-height:1.6}
+.therapy-includes li::before{content:'✦';color:var(--honey);font-size:11px;flex-shrink:0;margin-top:2px}
+.therapy-visual{display:flex;flex-direction:column;gap:16px}
+.therapy-quote{background:var(--honey-light);border-left:3px solid var(--honey);border-radius:0 14px 14px 0;padding:20px 22px}
+.therapy-quote p{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--dark);line-height:1.7;margin-bottom:8px}
+.therapy-quote span{font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em}
+.therapy-steps{display:flex;flex-direction:column;gap:12px}
+.therapy-step{display:flex;align-items:flex-start;gap:14px;background:var(--cream);border-radius:14px;padding:16px 18px;border:0.5px solid rgba(137,81,41,.06)}
+.therapy-step-num{width:32px;height:32px;border-radius:50%;background:var(--honey);color:var(--dark);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Playfair Display',serif}
+.therapy-step-text h5{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:2px}
+.therapy-step-text p{font-size:11px;color:var(--text-light);line-height:1.5}
+
+/* ── YOUTUBE SECTION ── */
+.yt-section{padding:72px 48px;background:var(--dark);position:relative;overflow:hidden}
+.yt-section::before{content:'';position:absolute;bottom:-100px;left:-80px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,193,7,.06),transparent);pointer-events:none}
+.yt-section .sec-tag{color:var(--honey)}
+.yt-section .sec-tag::before{background:var(--honey)}
+.yt-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:40px;position:relative;z-index:1}
+.yt-perks{display:flex;flex-direction:column;gap:14px}
+.yt-perk{display:flex;align-items:flex-start;gap:16px;background:rgba(255,193,7,.06);border:0.5px solid rgba(255,193,7,.14);border-radius:16px;padding:18px 20px;transition:all .25s}
+.yt-perk:hover{background:rgba(255,193,7,.1);border-color:rgba(255,193,7,.3);transform:translateX(4px)}
+.yt-perk-icon{font-size:24px;flex-shrink:0}
+.yt-perk h4{font-size:13px;font-weight:600;color:white;margin-bottom:4px}
+.yt-perk p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.6}
+.yt-cta-box{background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.25);border-radius:24px;padding:36px;text-align:center}
+.yt-logo{width:56px;height:56px;background:#FF0000;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:26px}
+.yt-cta-box h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:white;margin-bottom:10px}
+.yt-cta-box p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:24px}
+.yt-price-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+.yt-price{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--honey)}
+.yt-price-note{font-size:12px;color:rgba(255,255,255,.35)}
+.yt-ppp{font-size:11px;color:rgba(255,193,7,.6);margin-bottom:24px}
+.yt-btn{display:block;width:100%;padding:14px;background:#FF0000;color:white;border-radius:100px;text-align:center;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;text-decoration:none;margin-bottom:10px}
+.yt-btn:hover{background:#CC0000;transform:translateY(-1px)}
+.yt-alt{font-size:11px;color:rgba(255,255,255,.35);text-align:center}
+.yt-alt a{color:rgba(255,193,7,.6);text-decoration:none}
+.yt-alt a:hover{color:var(--honey)}
+
+@media(max-width:900px){
+  .workshops-section,.course-section,.how-it-works,.therapy-section,.yt-section{padding:48px 24px}
+  .wg{grid-template-columns:1fr}
+  .course-card{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .therapy-grid,.yt-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){.steps{grid-template-columns:1fr}.wdetails{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Mélange <em>of Flavours</em></a>
+  <ul class="nav-links">
+    <li><a href="recipes.html" class="nl">Recipes</a></li>
+    <li><a href="shop.html" class="nl">Shop</a></li>
+    <li><a href="workshops.html" class="nl active">Workshops</a></li>
+    <li><a href="supper-club.html" class="nl">Supper Club</a></li>
+    <li><a href="contact.html" class="nl">Contact</a></li>
+    <li><a href="index.html#subscribe" class="nl cta">Free Guide ↓</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="recipes.html" onclick="closeMenu()">Recipes</a>
+    <a href="shop.html" onclick="closeMenu()">Shop</a>
+    <a href="workshops.html" onclick="closeMenu()">Workshops</a>
+    <a href="supper-club.html" onclick="closeMenu()">Supper Club</a>
+    <a href="contact.html" onclick="closeMenu()">Contact</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-tag">🎓 Cook with Ashima</div>
+    <h1 class="page-hero-title">Live Cooking<br><em>Workshops</em></h1>
+    <p class="page-hero-desc">Interactive online and in-person sessions for home cooks worldwide. Learn to cook any global cuisine with what's in your pantry.</p>
+  </div>
+</div>
+
+<section class="workshops-section">
+  <div class="sec-tag">Live sessions</div>
+  <h2 class="sec-title">Upcoming <em>Workshops</em></h2>
+  <div class="wg">
+
+    <div class="wc">
+      <div class="ws" style="background:linear-gradient(to bottom,#FFC107,#895129)"></div>
+      <div class="wb">
+        <div class="wtype" style="color:var(--brown)">🔴 Live online — Zoom</div>
+        <h3>Asian Weeknight Edition</h3>
+        <p>Cook Japanese ramen, Thai peanut noodles, and Korean stir fry in one session — all from pantry staples. Live Q&A included.</p>
+        <div class="wdetails">
+          <div class="wdetail"><div class="wdetail-label">Duration</div><div class="wdetail-val">2 hours</div></div>
+          <div class="wdetail"><div class="wdetail-label">Group size</div><div class="wdetail-val">Max 15 people</div></div>
+          <div class="wdetail"><div class="wdetail-label">Location</div><div class="wdetail-val">Zoom — worldwide</div></div>
+          <div class="wdetail"><div class="wdetail-label">Price</div><div class="wdetail-val">From $35</div></div>
+        </div>
+        <div class="what-youll-learn">
+          <h4>What you'll cook</h4>
+          <ul>
+            <li>Pantry ramen with savoury broth</li>
+            <li>Thai peanut noodles (no fish sauce)</li>
+            <li>Korean soy-sesame stir fry</li>
+          </ul>
+        </div>
+        <div class="wbtns">
+          <a href="https://eventbrite.com" target="_blank" class="btn p sm">Book your spot →</a>
+          <a href="contact.html" class="btn outline sm">Ask a question</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wc">
+      <div class="ws" style="background:linear-gradient(to bottom,#F9E076,#FFC107)"></div>
+      <div class="wb">
+        <div class="wtype" style="color:#A07840">🟡 Live online — Zoom</div>
+        <h3>A Taste of Morocco</h3>
+        <p>Learn Moroccan spice architecture and cook a complete tagine with two sides — all from pantry herbs and spices.</p>
+        <div class="wdetails">
+          <div class="wdetail"><div class="wdetail-label">Duration</div><div class="wdetail-val">90 mins</div></div>
+          <div class="wdetail"><div class="wdetail-label">Group size</div><div class="wdetail-val">Max 12 people</div></div>
+          <div class="wdetail"><div class="wdetail-label">Location</div><div class="wdetail-val">Zoom — worldwide</div></div>
+          <div class="wdetail"><div class="wdetail-label">Price</div><div class="wdetail-val">From $30</div></div>
+        </div>
+        <div class="what-youll-learn">
+          <h4>What you'll cook</h4>
+          <ul>
+            <li>Spiced chickpea tagine</li>
+            <li>Herbed couscous (pantry version)</li>
+            <li>Harissa-style dipping sauce</li>
+          </ul>
+        </div>
+        <div class="wbtns">
+          <a href="https://eventbrite.com" target="_blank" class="btn p sm">Book your spot →</a>
+          <a href="contact.html" class="btn outline sm">Ask a question</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wc">
+      <div class="ws" style="background:linear-gradient(to bottom,#895129,#5C3310)"></div>
+      <div class="wb">
+        <div class="wtype" style="color:var(--brown)">🟤 In-person — Bengaluru</div>
+        <h3>Bengaluru Pop-Up Class</h3>
+        <p>An intimate in-person session in Bengaluru. Cook a full 3-course global menu together. Small group, hands-on, lots of eating.</p>
+        <div class="wdetails">
+          <div class="wdetail"><div class="wdetail-label">Duration</div><div class="wdetail-val">3 hours</div></div>
+          <div class="wdetail"><div class="wdetail-label">Group size</div><div class="wdetail-val">Max 8 people</div></div>
+          <div class="wdetail"><div class="wdetail-label">Location</div><div class="wdetail-val">Bengaluru, India</div></div>
+          <div class="wdetail"><div class="wdetail-label">Price</div><div class="wdetail-val">From ₹1,999</div></div>
+        </div>
+        <div class="what-youll-learn">
+          <h4>What you'll cook</h4>
+          <ul>
+            <li>Starter from one cuisine</li>
+            <li>Main from another cuisine</li>
+            <li>Dessert from a third</li>
+          </ul>
+        </div>
+        <div class="wbtns">
+          <a href="https://eventbrite.com" target="_blank" class="btn p sm">Join waitlist →</a>
+          <a href="contact.html" class="btn outline sm">Ask a question</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wc">
+      <div class="ws" style="background:linear-gradient(to bottom,#FFC107,#F9E076)"></div>
+      <div class="wb">
+        <div class="wtype" style="color:var(--brown)">🟠 Corporate / Private</div>
+        <h3>Private Group Booking</h3>
+        <p>Custom workshop for your team, family, or friends. I'll design a session around any cuisine or theme you choose.</p>
+        <div class="wdetails">
+          <div class="wdetail"><div class="wdetail-label">Duration</div><div class="wdetail-val">Flexible</div></div>
+          <div class="wdetail"><div class="wdetail-label">Group size</div><div class="wdetail-val">10–30 people</div></div>
+          <div class="wdetail"><div class="wdetail-label">Location</div><div class="wdetail-val">Online or in-person</div></div>
+          <div class="wdetail"><div class="wdetail-label">Price</div><div class="wdetail-val">From $500</div></div>
+        </div>
+        <div class="what-youll-learn">
+          <h4>Perfect for</h4>
+          <ul>
+            <li>Corporate team events</li>
+            <li>Birthday celebrations</li>
+            <li>Hen parties, family days</li>
+          </ul>
+        </div>
+        <div class="wbtns">
+          <a href="contact.html" class="btn p sm">Get in touch →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RECORDED COURSE -->
+<section class="course-section">
+  <div class="sec-tag">Self-paced</div>
+  <h2 class="sec-title white">The Global Pantry <em>Masterclass</em></h2>
+  <p class="sec-desc white">Can't make a live session? The recorded masterclass is available any time, forever.</p>
+  <div class="course-card">
+    <div>
+      <div class="price-big">$49</div>
+      <div class="price-note">one-time · lifetime access</div>
+      <p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.75;margin-bottom:24px">8 modules covering every key global cuisine. Learn to substitute any specialty ingredient. 20+ recipes with video walkthroughs.</p>
+      <a href="https://gumroad.com" target="_blank" class="btn p">Enrol now →</a>
+      <p style="font-size:11px;color:rgba(255,193,7,.6);margin-top:14px">🇮🇳 India: use code INDIA50 for 50% off</p>
+    </div>
+    <ul class="module-list">
+      <li class="module-item"><div class="module-num">1</div><div class="module-text">Building your global pantry from scratch</div></li>
+      <li class="module-item"><div class="module-num">2</div><div class="module-text">Asian cuisine — Japan, Korea, Thailand</div></li>
+      <li class="module-item"><div class="module-num">3</div><div class="module-text">Middle Eastern & Moroccan flavours</div></li>
+      <li class="module-item"><div class="module-num">4</div><div class="module-text">European classics — Italian, Greek, Spanish</div></li>
+      <li class="module-item"><div class="module-num">5</div><div class="module-text">Latin American cooking at home</div></li>
+      <li class="module-item"><div class="module-num">6</div><div class="module-text">Indian regional cuisine</div></li>
+      <li class="module-item"><div class="module-num">7</div><div class="module-text">Spice blending masterclass</div></li>
+      <li class="module-item"><div class="module-num">8</div><div class="module-text">Improvising — making any dish pantry-ready</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     MINDFUL COOKING THERAPY — 1-1
+════════════════════════════════════ -->
+<section class="therapy-section">
+  <div class="sec-tag">Something deeper</div>
+  <h2 class="sec-title">Mindful Cooking <em>Therapy</em></h2>
+  <p class="sec-desc">A 1-on-1 session where cooking becomes a mindfulness practice. Not just a skill — a way to slow down, be present, and find calm through the act of preparing food.</p>
+  <div class="therapy-grid">
+    <div class="therapy-card">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(137,81,41,.1);border:0.5px solid rgba(137,81,41,.2);padding:6px 14px;border-radius:100px;font-size:10px;font-weight:700;color:var(--brown);text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px">🧘 1-on-1 · Online · Private</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark);margin-bottom:10px;line-height:1.3">Cook your way to <em style="color:var(--brown)">calm.</em></h3>
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.75;margin-bottom:4px">Each session is a private, guided cooking experience designed to reduce anxiety, build mindfulness, and reconnect you with the simple pleasure of making food — at your own pace, with your own pantry.</p>
+      <div class="therapy-price">
+        <span class="amount">₹1,999</span>
+        <span class="period">/ session · ~60 mins</span>
+      </div>
+      <ul class="therapy-includes">
+        <li>Private 1-on-1 Zoom session with Ashima</li>
+        <li>A calming recipe chosen together before the session</li>
+        <li>Breathing and grounding exercises woven through the cook</li>
+        <li>No pressure, no performance — just you and your kitchen</li>
+        <li>Follow-up recipe card and reflection notes shared after</li>
+        <li>Available internationally — all you need is a kitchen</li>
+      </ul>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="contact.html" class="btn p">Book a session →</a>
+        <a href="contact.html" class="btn outline sm">Ask a question</a>
+      </div>
+    </div>
+    <div class="therapy-visual">
+      <div class="therapy-quote">
+        <p>"Cooking is meditation with a delicious result. When you focus on the smell of garlic in a pan or the rhythm of chopping, everything else quiets down."</p>
+        <span>— Ashima, Mélange of Flavours</span>
+      </div>
+      <div class="therapy-steps">
+        <div class="therapy-step">
+          <div class="therapy-step-num">1</div>
+          <div class="therapy-step-text"><h5>We choose your recipe together</h5><p>Something simple, sensory, and manageable — designed for the session, not to impress.</p></div>
+        </div>
+        <div class="therapy-step">
+          <div class="therapy-step-num">2</div>
+          <div class="therapy-step-text"><h5>We cook slowly and intentionally</h5><p>No rushing. I guide you through each step with mindfulness cues — noticing textures, smells, sounds.</p></div>
+        </div>
+        <div class="therapy-step">
+          <div class="therapy-step-num">3</div>
+          <div class="therapy-step-text"><h5>You eat, reflect, and receive notes</h5><p>We close the session with a moment of gratitude over what you've made. I send follow-up notes within 24 hrs.</p></div>
+        </div>
+        <div class="therapy-step">
+          <div class="therapy-step-num">4</div>
+          <div class="therapy-step-text"><h5>Optional: book a regular series</h5><p>Many people find weekly or fortnightly sessions transform their relationship with cooking and stress.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     YOUTUBE MEMBERSHIP
+════════════════════════════════════ -->
+<section class="yt-section">
+  <div class="sec-tag">Monthly membership</div>
+  <h2 class="sec-title white">YouTube <em>Cook-Along</em> Membership</h2>
+  <p class="sec-desc white">Join a live monthly cooking session on YouTube — just members, just Ashima, and one global dish made from pantry ingredients. Cook in real time, ask questions live, and eat together.</p>
+  <div class="yt-grid">
+    <div class="yt-perks">
+      <div class="yt-perk">
+        <div class="yt-perk-icon">📺</div>
+        <div><h4>Live monthly cook-along</h4><p>A new global cuisine every month. Cook in real time with Ashima on a live YouTube Members stream — interactive, warm, and relaxed.</p></div>
+      </div>
+      <div class="yt-perk">
+        <div class="yt-perk-icon">💬</div>
+        <div><h4>Live Q&A during the session</h4><p>Ask questions as you cook. Ashima answers live — whether it's a technique, a swap, or why a dish works the way it does.</p></div>
+      </div>
+      <div class="yt-perk">
+        <div class="yt-perk-icon">🎥</div>
+        <div><h4>Replay access for members</h4><p>Miss the live session? The full recording stays in the Members section of YouTube for you to cook along with any time.</p></div>
+      </div>
+      <div class="yt-perk">
+        <div class="yt-perk-icon">📋</div>
+        <div><h4>Members-only recipe PDF</h4><p>Each month's recipe, with all pantry swaps documented, shared exclusively with members before the live session.</p></div>
+      </div>
+      <div class="yt-perk">
+        <div class="yt-perk-icon">🏅</div>
+        <div><h4>Members badge & early access</h4><p>A special Members badge in comments, plus early access to new recipes and first priority for workshop spots.</p></div>
+      </div>
+    </div>
+    <div class="yt-cta-box">
+      <div class="yt-logo">▶</div>
+      <h3>Join the Cook-Along Community</h3>
+      <p>One live session every month. Cook a new global dish together. No special ingredients — ever.</p>
+      <div class="yt-price-row">
+        <span class="yt-price">$4.99</span>
+        <span class="yt-price-note">/ month</span>
+      </div>
+      <div class="yt-ppp">🇮🇳 India: approx ₹199/month via YouTube Memberships</div>
+      <a href="https://youtube.com" target="_blank" class="yt-btn">▶ Join on YouTube →</a>
+      <div class="yt-alt">Not on YouTube? Join via <a href="https://patreon.com" target="_blank">Patreon</a> instead</div>
+      <div style="margin-top:20px;padding-top:20px;border-top:0.5px solid rgba(255,193,7,.15)">
+        <p style="font-size:11px;color:rgba(255,255,255,.3);line-height:1.65">YouTube Memberships become available once a channel reaches 500 subscribers. Until then, the monthly cook-along runs via <a href="https://patreon.com" target="_blank" style="color:rgba(255,193,7,.6);text-decoration:none">Patreon</a> at the same price.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works">
+  <div class="sec-tag center">Simple process</div>
+  <h2 class="sec-title center">How it <em>works</em></h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><h4>Choose a workshop</h4><p>Pick the session that fits your schedule — live online, in-person, or recorded course.</p></div>
+    <div class="step"><div class="step-num">2</div><h4>Book your spot</h4><p>Pay through Eventbrite or Gumroad. You'll get a confirmation and ingredient list immediately.</p></div>
+    <div class="step"><div class="step-num">3</div><h4>Prep your pantry</h4><p>Everything you need is already in a standard supermarket. No specialty stores required.</p></div>
+    <div class="step"><div class="step-num">4</div><h4>Cook & eat</h4><p>Join the session, cook along live, ask questions, and enjoy the meal you've made.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <a href="index.html" class="fl">Mélange <em>of Flavours</em></a>
+    <p class="fp">Global recipes. Pantry ingredients. No specialty store needed. · Bengaluru, India</p>
+  </div>
+  <ul class="flinks">
+    <li><a href="recipes.html">Recipes</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="supper-club.html">Supper Club</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open')}
+function closeMenu(){document.getElementById('mobile-menu').classList.remove('open')}
+</script>
+</body>
+</html>
