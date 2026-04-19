@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Recipes — Mélange of Flavours by Ashima | Global Pantry Recipes</title>
+<meta name="description" content="Browse 30+ global recipes by Ashima of Mélange of Flavours, Bengaluru. Filter by country, cuisine, or dietary label. All made with pantry ingredients.">
+<meta name="keywords" content="global recipes pantry ingredients, Ashima recipes, Melange of Flavours, Bengaluru food blog, easy world recipes">
+<meta name="author" content="Ashima — Mélange of Flavours">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://melangeofflavours.com/recipes.html">
+<meta property="og:title" content="All Recipes — Mélange of Flavours by Ashima">
+<meta property="og:description" content="30+ global recipes made with pantry ingredients. Filter by country or dietary label.">
+<meta property="og:image" content="https://melangeofflavours.com/logo.png">
+<meta property="og:url" content="https://melangeofflavours.com/recipes.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"All Recipes — Mélange of Flavours","description":"Global recipes made with pantry ingredients by Ashima, Bengaluru food blogger.","url":"https://melangeofflavours.com/recipes.html","author":{"@type":"Person","name":"Ashima","url":"https://melangeofflavours.com"}}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* FILTER BAR */
+.filter-bar{position:sticky;top:60px;z-index:50;background:var(--dark);padding:13px 48px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:0.5px solid rgba(255,193,7,.15)}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:380px}
+.search-input{width:100%;padding:10px 16px 10px 40px;border-radius:100px;border:0.5px solid rgba(255,193,7,.3);background:rgba(255,255,255,.07);color:white;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:all .2s}
+.search-input::placeholder{color:rgba(255,255,255,.3)}
+.search-input:focus{border-color:var(--honey);background:rgba(255,255,255,.1)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.4;pointer-events:none}
+.label-pills{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.lp{padding:6px 13px;border-radius:100px;font-size:11px;font-weight:600;border:0.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;background:none;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.lp:hover{border-color:var(--honey);color:var(--honey)}
+.lp.active{background:var(--honey);color:var(--dark);border-color:var(--honey)}
+.clear-btn{padding:7px 16px;border-radius:100px;font-size:11px;font-weight:700;border:0.5px solid rgba(220,80,40,.4);color:rgba(220,80,40,.8);cursor:pointer;background:none;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;display:none}
+.clear-btn.show{display:block}
+.clear-btn:hover{background:rgba(220,80,40,.1);color:#E85520;border-color:#E85520}
+
+/* MAP */
+.map-section{background:var(--dark);padding:0}
+.map-header{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:18px 48px 14px}
+.map-hint{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.35)}
+.map-legend{display:flex;gap:16px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.5);font-weight:500}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+#map-wrap{width:100%;overflow:hidden;padding-bottom:8px}
+#world-map{width:100%;height:auto;display:block;cursor:default}
+.cp{cursor:default}
+.cp.has-r{cursor:pointer}
+#tip{position:fixed;background:rgba(26,14,4,.97);border:1px solid rgba(255,193,7,.4);color:white;padding:9px 16px;border-radius:12px;font-size:12px;pointer-events:none;z-index:999;display:none;font-family:'DM Sans',sans-serif;line-height:1.7;max-width:180px;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.map-banner{display:none;align-items:center;gap:10px;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.35);border-radius:12px;padding:11px 20px;font-size:12px;color:var(--honey);margin:0 48px 16px;font-weight:600}
+.map-banner.show{display:flex}
+.mbc{margin-left:auto;background:none;border:none;color:rgba(255,193,7,.5);cursor:pointer;font-size:15px;padding:0 2px;font-family:'DM Sans',sans-serif}
+.mbc:hover{color:var(--honey)}
+
+/* RESULTS */
+.results-bar{padding:22px 48px 0;background:white;display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:60px}
+.results-count{font-size:13px;color:var(--text-mid)}
+.results-count strong{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark);margin-right:4px}
+.atag{display:inline-flex;align-items:center;gap:6px;background:var(--honey-light);border:0.5px solid rgba(137,81,41,.15);padding:4px 12px;border-radius:100px;font-size:11px;color:var(--brown);font-weight:500}
+.atag-rm{background:none;border:none;cursor:pointer;color:var(--text-light);font-size:12px;padding:0;line-height:1}
+.atag-rm:hover{color:var(--brown)}
+
+/* RECIPE GRID */
+.rg-section{padding:16px 48px 80px;background:white}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rc{border-radius:20px;overflow:hidden;transition:all .3s;background:var(--honey-light);border:0.5px solid rgba(137,81,41,.08);text-decoration:none;display:block;color:inherit}
+.rc:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(137,81,41,.16)}
+.rc.hidden{display:none}
+.rc-img{height:190px;position:relative;overflow:hidden}
+.rci{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .5s ease}
+.rc:hover .rci{transform:scale(1.06)}
+.rc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(42,26,8,.45),transparent 55%)}
+.rcb{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:100px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(255,255,255,.93);color:var(--dark);z-index:1}
+.rcf{position:absolute;bottom:10px;right:12px;font-size:22px;z-index:1}
+.rc-body{padding:18px}
+.rcloc{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brown);margin-bottom:4px}
+.rc-body h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--dark);margin-bottom:5px;line-height:1.3}
+.rc-body p{font-size:12px;color:var(--text-mid);line-height:1.6;margin-bottom:10px}
+.rcm{display:flex;gap:12px;font-size:11px;color:var(--text-light);margin-bottom:8px;flex-wrap:wrap}
+.rch{font-size:11px;color:var(--brown);font-weight:600;margin-bottom:10px}
+.rcl{display:flex;flex-wrap:wrap;gap:5px}
+.lt{padding:3px 9px;border-radius:100px;font-size:10px;font-weight:600}
+.lt-vegan{background:#E8F5E9;color:#2E7D32}
+.lt-vegetarian{background:#F3E5F5;color:#6A1B9A}
+.lt-meat{background:#FBE9E7;color:#BF360C}
+.lt-seafood{background:#E0F7FA;color:#006064}
+.lt-dairy{background:#E3F2FD;color:#1565C0}
+.lt-egg{background:#FFFDE7;color:#F57F17}
+.lt-gluten-free{background:#FFF3E0;color:#E65100}
+.lt-spicy{background:#FFEBEE;color:#C62828}
+.lt-nut-free{background:#FCE4EC;color:#880E4F}
+.lt-quick{background:#E8F5E9;color:#1B5E20}
+.empty{grid-column:1/-1;text-align:center;padding:80px 24px;display:none}
+.empty.show{display:block}
+.empty h3{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--dark);margin-bottom:10px}
+.empty p{font-size:14px;color:var(--text-mid);margin-bottom:24px}
+
+@media(max-width:900px){
+  .filter-bar{padding:12px 20px;top:56px;gap:8px}
+  .map-header{padding:14px 20px 10px}
+  .map-banner{margin:0 20px 12px}
+  .results-bar,.rg-section{padding-left:20px;padding-right:20px}
+  .rg{grid-template-columns:1fr 1fr}
+  .search-wrap{max-width:100%;width:100%}
+}
+@media(max-width:600px){.rg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Mélange <em>of Flavours</em></a>
+  <ul class="nav-links">
+    <li><a href="recipes.html" class="nl active">Recipes</a></li>
+    <li><a href="shop.html" class="nl">Shop</a></li>
+    <li><a href="workshops.html" class="nl">Workshops</a></li>
+    <li><a href="supper-club.html" class="nl">Supper Club</a></li>
+    <li><a href="contact.html" class="nl">Contact</a></li>
+    <li><a href="index.html#subscribe" class="nl cta">Free Guide ↓</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="recipes.html" onclick="closeMenu()">Recipes</a>
+    <a href="shop.html" onclick="closeMenu()">Shop</a>
+    <a href="workshops.html" onclick="closeMenu()">Workshops</a>
+    <a href="supper-club.html" onclick="closeMenu()">Supper Club</a>
+    <a href="contact.html" onclick="closeMenu()">Contact</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-tag">🍽 All Recipes</div>
+    <h1 class="page-hero-title">Every dish.<br><em>Pantry ingredients.</em></h1>
+    <p class="page-hero-desc">Hover any country on the map, filter by dietary label, or search by ingredient — combine all three.</p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="search" class="search-input" id="si" placeholder="Search recipe, country, ingredient…" autocomplete="off"/>
+  </div>
+  <div class="label-pills" id="lps">
+    <button class="lp active" data-label="all">All</button>
+    <button class="lp" data-label="vegan">🌱 Vegan</button>
+    <button class="lp" data-label="vegetarian">🥦 Vegetarian</button>
+    <button class="lp" data-label="meat">🥩 Meat</button>
+    <button class="lp" data-label="seafood">🐟 Seafood</button>
+    <button class="lp" data-label="dairy">🧀 Dairy</button>
+    <button class="lp" data-label="egg">🥚 Egg</button>
+    <button class="lp" data-label="gluten-free">🌾 Gluten-Free</button>
+    <button class="lp" data-label="spicy">🌶 Spicy</button>
+    <button class="lp" data-label="nut-free">🚫 Nut-Free</button>
+    <button class="lp" data-label="quick">⚡ Under 20 mins</button>
+  </div>
+  <button class="clear-btn" id="cbtn" onclick="clearAll()">✕ Clear all</button>
+</div>
+
+<!-- WORLD MAP -->
+<section class="map-section">
+  <div class="map-header">
+    <span class="map-hint">🗺 Hover to explore · Click a country to filter</span>
+    <div class="map-legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--honey)"></div>Hover / selected</div>
+      <div class="leg"><div class="leg-dot" style="background:rgba(255,255,255,.2)"></div>Countries</div>
+    </div>
+  </div>
+  <div id="map-wrap">
+    <svg id="world-map" viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div class="map-banner" id="mb">
+    <span>🍽</span><span id="mbt">Showing recipes from …</span>
+    <button class="mbc" onclick="clearCountry()">✕ Clear</button>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<div class="results-bar">
+  <div class="results-count"><strong id="rcount">0</strong> recipes</div>
+  <div id="atags"></div>
+</div>
+
+<!-- RECIPE GRID -->
+<section class="rg-section">
+  <div class="rg" id="rg"></div>
+  <div class="empty" id="es">
+    <h3>No recipes found 🍽</h3>
+    <p>Try adjusting your search or removing a filter.</p>
+    <button class="btn p sm" onclick="clearAll()">Clear all filters</button>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <a href="index.html" class="fl">Mélange <em>of Flavours</em></a>
+    <p class="fp">Global recipes. Pantry ingredients. No specialty store needed. · Bengaluru, India</p>
+  </div>
+  <ul class="flinks">
+    <li><a href="recipes.html">Recipes</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="supper-club.html">Supper Club</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<div id="tip"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   RECIPE DATA
+   To add a new recipe: copy one entry in RECIPES,
+   give it a new id, fill in all fields, then add
+   its page to RECIPE_PAGES below.
+   ═══════════════════════════════════════════════════ */
+var RECIPES = [
+  {id:1, name:"Pantry Ramen", country:"Japan", cc:392, region:"East Asia", hero:"Noodles", flag:"🇯🇵",
+   img:"https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80&auto=format&fit=crop",
+   time:"25 mins", sv:2, quick:false, labels:["meat","spicy"],
+   desc:"Rich, savoury broth with zero specialty store ingredients. Soy, peanut butter, pantry spices."},
+
+  {id:2, name:"Butter Chicken — No Ghee", country:"India", cc:356, region:"South Asia", hero:"Chicken", flag:"🇮🇳",
+   img:"https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80&auto=format&fit=crop",
+   time:"30 mins", sv:4, quick:false, labels:["meat","dairy","gluten-free"],
+   desc:"The classic reimagined with pantry oils and spices you already have."},
+
+  {id:3, name:"Spiced Chickpea Tagine", country:"Morocco", cc:504, region:"North Africa", hero:"Chickpeas", flag:"🇲🇦",
+   img:"https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=600&q=80&auto=format&fit=crop",
+   time:"20 mins", sv:3, quick:true, labels:["vegan","vegetarian","gluten-free","spicy"],
+   desc:"Warming Moroccan flavours from cumin, coriander, and paprika."},
+
+  {id:4, name:"Pantry Black Bean Tacos", country:"Mexico", cc:484, region:"Latin America", hero:"Black Beans", flag:"🇲🇽",
+   img:"https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=80&auto=format&fit=crop",
+   time:"15 mins", sv:2, quick:true, labels:["vegan","vegetarian","spicy","gluten-free"],
+   desc:"Bold, smoky, satisfying. Made entirely from pantry staples in 15 minutes."},
+
+  {id:5, name:"Korean Pantry Stir Fry", country:"South Korea", cc:410, region:"East Asia", hero:"Soy Sauce", flag:"🇰🇷",
+   img:"https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=600&q=80&auto=format&fit=crop",
+   time:"18 mins", sv:2, quick:true, labels:["meat","spicy"],
+   desc:"Soy, sesame, garlic. Bold Korean flavours with zero specialty ingredients."},
+
+  {id:6, name:"Pantry Arrabbiata", country:"Italy", cc:380, region:"Europe", hero:"Tomatoes", flag:"🇮🇹",
+   img:"https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=600&q=80&auto=format&fit=crop",
+   time:"20 mins", sv:2, quick:true, labels:["vegan","vegetarian","spicy"],
+   desc:"Fiery, garlicky, deeply tomato-forward. Five ingredients from your cupboard."},
+
+  {id:7, name:"Pantry Pad Thai", country:"Thailand", cc:764, region:"Southeast Asia", hero:"Peanut Butter", flag:"🇹🇭",
+   img:"https://images.unsplash.com/photo-1476224203421-9ac39bcb3b28?w=600&q=80&auto=format&fit=crop",
+   time:"20 mins", sv:2, quick:true, labels:["egg","nut-free"],
+   desc:"The street food favourite made with spaghetti and pantry sauces."},
+
+  {id:8, name:"Greek Pantry Chicken", country:"Greece", cc:300, region:"Europe", hero:"Lemon", flag:"🇬🇷",
+   img:"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&auto=format&fit=crop",
+   time:"35 mins", sv:3, quick:false, labels:["meat","dairy","gluten-free"],
+   desc:"Lemon, oregano, garlic. Simple Mediterranean magic with pantry herbs."},
+
+  {id:9, name:"Pantry Dal Tadka", country:"India", cc:356, region:"South Asia", hero:"Lentils", flag:"🇮🇳",
+   img:"https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80&auto=format&fit=crop",
+   time:"25 mins", sv:4, quick:false, labels:["vegan","vegetarian","gluten-free"],
+   desc:"Comforting, deeply spiced lentil dal made from pantry essentials."},
+
+  {id:10, name:"Vietnamese Pantry Pho", country:"Vietnam", cc:704, region:"Southeast Asia", hero:"Star Anise", flag:"🇻🇳",
+   img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80&auto=format&fit=crop",
+   time:"40 mins", sv:4, quick:false, labels:["meat","gluten-free","spicy"],
+   desc:"Deeply aromatic broth using pantry spices — no specialty pho paste needed."},
+
+  {id:11, name:"Spanish Pantry Paella", country:"Spain", cc:724, region:"Europe", hero:"Rice", flag:"🇪🇸",
+   img:"https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=80&auto=format&fit=crop",
+   time:"45 mins", sv:4, quick:false, labels:["seafood","gluten-free"],
+   desc:"Classic Spanish rice with turmeric instead of saffron — just as golden."},
+
+  {id:12, name:"Lebanese Fattoush", country:"Lebanon", cc:422, region:"Middle East", hero:"Sumac", flag:"🇱🇧",
+   img:"https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&auto=format&fit=crop",
+   time:"15 mins", sv:2, quick:true, labels:["vegan","vegetarian","nut-free"],
+   desc:"Crispy, tangy, herb-loaded salad with pantry lemon and spice dressing."},
+
+  {id:13, name:"Shakshuka", country:"Tunisia", cc:788, region:"North Africa", hero:"Tomatoes", flag:"🇹🇳",
+   img:"https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80&auto=format&fit=crop",
+   time:"20 mins", sv:2, quick:true, labels:["vegetarian","egg","spicy","gluten-free"],
+   desc:"Eggs poached in a spiced tomato sauce. One pan, all pantry."},
+
+  {id:14, name:"Brazilian Black Bean Stew", country:"Brazil", cc:76, region:"Latin America", hero:"Black Beans", flag:"🇧🇷",
+   img:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80&auto=format&fit=crop",
+   time:"30 mins", sv:4, quick:false, labels:["vegan","vegetarian","gluten-free","nut-free"],
+   desc:"Hearty feijoada-style bean stew with pantry smoked spices and garlic."},
+
+  {id:15, name:"Japanese Teriyaki", country:"Japan", cc:392, region:"East Asia", hero:"Soy Sauce", flag:"🇯🇵",
+   img:"https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80&auto=format&fit=crop",
+   time:"20 mins", sv:2, quick:true, labels:["meat","dairy"],
+   desc:"Glossy, sticky teriyaki glaze from pantry soy, sugar, and mirin substitute."}
+];
+
+/* Recipe page links — add entry when you create a new page */
+var RECIPE_PAGES = {
+  1:'recipe-ramen.html', 2:'recipe-butter-chicken.html',
+  3:'recipe-chickpea-tagine.html', 4:'recipe-black-bean-tacos.html',
+  5:'recipe-korean-stir-fry.html', 6:'recipe-arrabbiata.html',
+  7:'recipe-pad-thai.html', 8:'recipe-greek-chicken.html',
+  9:'recipe-dal-tadka.html', 10:'recipe-pho.html',
+  11:'recipe-paella.html', 12:'recipe-fattoush.html',
+  13:'recipe-shakshuka.html', 14:'recipe-brazilian-stew.html',
+  15:'recipe-teriyaki.html'
+};
+
+var LE = {vegan:'🌱',vegetarian:'🥦',meat:'🥩',seafood:'🐟',dairy:'🧀',egg:'🥚','gluten-free':'🌾',spicy:'🌶','nut-free':'🚫',quick:'⚡'};
+var activeLabels = new Set();
+var selectedCountry = null;
+var searchQuery = '';
+var recipeCodes = new Set(RECIPES.map(function(r){ return r.cc; }));
+
+/* ═══════════════════════════
+   RENDER RECIPE CARDS
+   ═══════════════════════════ */
+function render() {
+  document.getElementById('rg').innerHTML = RECIPES.map(function(r) {
+    var url = RECIPE_PAGES[r.id] || 'https://www.instagram.com/melangeofflavours';
+    var labelHTML = r.labels.map(function(l) {
+      return '<span class="lt lt-' + l + '">' + (LE[l]||'') + ' ' + l + '</span>';
+    }).join('');
+    if (r.quick) labelHTML += '<span class="lt lt-quick">⚡ quick</span>';
+    return '<a href="' + url + '" class="rc" id="rc-' + r.id + '">' +
+      '<div class="rc-img">' +
+        '<div class="rci" style="background-image:url(\'' + r.img + '\')"></div>' +
+        '<span class="rcb">' + r.country + '</span>' +
+        '<span class="rcf">' + r.flag + '</span>' +
+      '</div>' +
+      '<div class="rc-body">' +
+        '<div class="rcloc">' + r.region + ' · ' + r.country + '</div>' +
+        '<h3>' + r.name + '</h3>' +
+        '<p>' + r.desc + '</p>' +
+        '<div class="rcm"><span>⏱ ' + r.time + '</span><span>👤 ' + r.sv + ' servings</span></div>' +
+        '<div class="rch">⭐ Hero: ' + r.hero + '</div>' +
+        '<div class="rcl">' + labelHTML + '</div>' +
+      '</div></a>';
+  }).join('');
+  applyFilter();
+}
+
+/* ═══════════════════════════
+   FILTER
+   ═══════════════════════════ */
+function applyFilter() {
+  var n = 0;
+  RECIPES.forEach(function(r) {
+    var el = document.getElementById('rc-' + r.id);
+    if (!el) return;
+    var countryOk = !selectedCountry || r.cc === selectedCountry;
+    var labelOk = activeLabels.size === 0 || Array.from(activeLabels).every(function(l) {
+      return l === 'quick' ? r.quick : r.labels.indexOf(l) !== -1;
+    });
+    var hay = [r.name, r.country, r.region, r.hero].concat(r.labels).join(' ').toLowerCase();
+    var searchOk = !searchQuery || hay.indexOf(searchQuery) !== -1;
+    var show = countryOk && labelOk && searchOk;
+    el.classList.toggle('hidden', !show);
+    if (show) n++;
+  });
+  document.getElementById('rcount').textContent = n;
+  document.getElementById('es').classList.toggle('show', n === 0);
+  var hasF = activeLabels.size > 0 || selectedCountry || searchQuery;
+  document.getElementById('cbtn').classList.toggle('show', hasF);
+  renderTags();
+}
+
+function renderTags() {
+  var h = '';
+  if (selectedCountry) {
+    var cname = '';
+    MAP_COUNTRIES.forEach(function(c){ if(c.id===selectedCountry) cname=c.name; });
+    h += '<span class="atag">🗺 ' + cname + ' <button class="atag-rm" onclick="clearCountry()">✕</button></span>';
+  }
+  if (searchQuery) h += '<span class="atag">🔍 "' + searchQuery + '" <button class="atag-rm" onclick="clearSearch()">✕</button></span>';
+  activeLabels.forEach(function(l) {
+    h += '<span class="atag">' + (LE[l]||'') + ' ' + l + ' <button class="atag-rm" onclick="removeLabel(\'' + l + '\')">✕</button></span>';
+  });
+  document.getElementById('atags').innerHTML = h;
+}
+
+/* ═══════════════════════════
+   CONTROLS
+   ═══════════════════════════ */
+document.getElementById('lps').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lp');
+  if (!btn) return;
+  var l = btn.dataset.label;
+  if (l === 'all') {
+    activeLabels.clear();
+    document.querySelectorAll('.lp').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+  } else {
+    document.querySelector('[data-label="all"]').classList.remove('active');
+    if (btn.classList.contains('active')) {
+      btn.classList.remove('active');
+      activeLabels.delete(l);
+      if (activeLabels.size === 0) document.querySelector('[data-label="all"]').classList.add('active');
+    } else {
+      btn.classList.add('active');
+      activeLabels.add(l);
+    }
+  }
+  applyFilter();
+});
+
+document.getElementById('si').addEventListener('input', function(e) {
+  searchQuery = e.target.value.toLowerCase().trim();
+  applyFilter();
+});
+
+function clearCountry() {
+  selectedCountry = null;
+  document.getElementById('mb').classList.remove('show');
+  resetMapCountry();
+  applyFilter();
+}
+function clearSearch() { searchQuery = ''; document.getElementById('si').value = ''; applyFilter(); }
+function removeLabel(l) {
+  activeLabels.delete(l);
+  var b = document.querySelector('[data-label="' + l + '"]');
+  if (b) b.classList.remove('active');
+  if (activeLabels.size === 0) document.querySelector('[data-label="all"]').classList.add('active');
+  applyFilter();
+}
+function clearAll() {
+  activeLabels.clear(); selectedCountry = null; searchQuery = '';
+  document.getElementById('si').value = '';
+  document.querySelectorAll('.lp').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelector('[data-label="all"]').classList.add('active');
+  document.getElementById('mb').classList.remove('show');
+  resetMapCountry();
+  applyFilter();
+}
+
+/* ═══════════════════════════════════════════════════════
+   WORLD MAP — self-contained, zero dependencies
+   Equirectangular projection: simple, always works
+   x = (lon+180)/360 * W    y = (90-lat)/180 * H
+   ═══════════════════════════════════════════════════════ */
+var W = 960, H = 480;
+
+function px(lon, lat) {
+  var x = Math.round((lon + 180) / 360 * W);
+  var y = Math.round((90 - lat) / 180 * H);
+  return x + ',' + y;
+}
+
+/* Country shapes: {id, name, pts:[[lon,lat],...]} */
+var MAP_COUNTRIES = [
+  /* Americas */
+  {id:840,name:'United States',pts:[[-125,25],[-66,25],[-66,50],[-97,50],[-125,49]]},
+  {id:124,name:'Canada',pts:[[-141,50],[-52,50],[-52,60],[-80,68],[-141,67]]},
+  {id:484,name:'Mexico',pts:[[-118,32],[-86,32],[-86,15],[-92,18],[-118,28]]},
+  {id:32,name:'Argentina',pts:[[-73,-55],[-53,-55],[-53,-22],[-69,-22],[-73,-38]]},
+  {id:76,name:'Brazil',pts:[[-74,5],[-35,5],[-35,-15],[-50,-34],[-74,-25]]},
+  {id:170,name:'Colombia',pts:[[-79,12],[-66,12],[-66,-4],[-79,-4]]},
+  {id:604,name:'Peru',pts:[[-81,-18],[-68,-18],[-68,-2],[-81,-2]]},
+  {id:152,name:'Chile',pts:[[-76,-56],[-66,-56],[-66,-17],[-76,-17]]},
+  {id:862,name:'Venezuela',pts:[[-73,12],[-59,12],[-59,4],[-73,4]]},
+  {id:68,name:'Bolivia',pts:[[-70,-22],[-57,-22],[-57,-10],[-70,-10]]},
+  {id:218,name:'Ecuador',pts:[[-81,-5],[-75,-5],[-75,2],[-81,2]]},
+  {id:858,name:'Uruguay',pts:[[-58,-35],[-53,-35],[-53,-30],[-58,-30]]},
+  {id:192,name:'Cuba',pts:[[-85,20],[-74,20],[-74,23],[-85,23]]},
+  /* Europe */
+  {id:643,name:'Russia',pts:[[28,50],[68,50],[68,58],[140,58],[140,72],[28,72]]},
+  {id:826,name:'United Kingdom',pts:[[-5,50],[2,51],[2,58],[-4,59],[-6,56],[-5,50]]},
+  {id:250,name:'France',pts:[[-5,43],[8,43],[8,50],[-2,51],[-5,47]]},
+  {id:276,name:'Germany',pts:[[6,47],[15,47],[15,55],[6,55]]},
+  {id:380,name:'Italy',pts:[[7,44],[14,44],[18,41],[16,37],[13,37],[12,42],[8,46]]},
+  {id:724,name:'Spain',pts:[[-9,36],[4,36],[4,44],[-9,44]]},
+  {id:620,name:'Portugal',pts:[[-9,37],[-6,37],[-6,42],[-9,42]]},
+  {id:752,name:'Sweden',pts:[[11,56],[24,56],[24,70],[11,70]]},
+  {id:578,name:'Norway',pts:[[4,58],[32,58],[32,71],[4,71]]},
+  {id:246,name:'Finland',pts:[[20,60],[32,60],[32,70],[20,70]]},
+  {id:616,name:'Poland',pts:[[14,49],[24,49],[24,55],[14,55]]},
+  {id:804,name:'Ukraine',pts:[[22,44],[40,44],[40,52],[22,52]]},
+  {id:300,name:'Greece',pts:[[20,36],[27,36],[27,42],[20,42]]},
+  {id:642,name:'Romania',pts:[[22,43],[30,43],[30,48],[22,48]]},
+  {id:528,name:'Netherlands',pts:[[3,51],[7,51],[7,53],[3,53]]},
+  {id:56,name:'Belgium',pts:[[3,49],[6,49],[6,51],[3,51]]},
+  {id:372,name:'Ireland',pts:[[-10,52],[-6,52],[-6,55],[-10,55]]},
+  /* Asia */
+  {id:156,name:'China',pts:[[73,18],[135,18],[135,53],[100,53],[73,40]]},
+  {id:356,name:'India',pts:[[68,8],[80,8],[92,22],[92,28],[80,36],[68,28],[72,16]]},
+  {id:392,name:'Japan',pts:[[130,31],[132,31],[136,33],[141,35],[141,40],[138,40],[135,34],[130,33]]},
+  {id:410,name:'South Korea',pts:[[126,34],[130,34],[130,38],[126,38]]},
+  {id:764,name:'Thailand',pts:[[97,6],[106,6],[106,21],[97,21]]},
+  {id:704,name:'Vietnam',pts:[[102,8],[109,8],[109,23],[102,23]]},
+  {id:360,name:'Indonesia',pts:[[95,-8],[141,-8],[141,2],[120,5],[95,4]]},
+  {id:458,name:'Malaysia',pts:[[100,1],[119,1],[119,8],[100,8]]},
+  {id:586,name:'Pakistan',pts:[[60,24],[77,24],[77,37],[60,37]]},
+  {id:50,name:'Bangladesh',pts:[[88,21],[93,21],[93,26],[88,26]]},
+  {id:792,name:'Turkey',pts:[[26,36],[45,36],[45,42],[26,42]]},
+  {id:364,name:'Iran',pts:[[44,25],[64,25],[64,40],[44,40]]},
+  {id:368,name:'Iraq',pts:[[38,29],[49,29],[49,38],[38,38]]},
+  {id:682,name:'Saudi Arabia',pts:[[36,16],[56,16],[56,32],[36,32]]},
+  {id:784,name:'UAE',pts:[[51,22],[56,22],[56,26],[51,26]]},
+  {id:422,name:'Lebanon',pts:[[35,33],[37,33],[37,35],[35,35]]},
+  {id:376,name:'Israel',pts:[[34,29],[36,29],[36,33],[34,33]]},
+  {id:400,name:'Jordan',pts:[[35,29],[39,29],[39,33],[35,33]]},
+  {id:887,name:'Yemen',pts:[[42,12],[55,12],[55,18],[42,18]]},
+  {id:104,name:'Myanmar',pts:[[92,10],[102,10],[102,28],[92,28]]},
+  {id:116,name:'Cambodia',pts:[[102,10],[108,10],[108,15],[102,15]]},
+  {id:524,name:'Nepal',pts:[[80,27],[88,27],[88,30],[80,30]]},
+  {id:144,name:'Sri Lanka',pts:[[80,6],[82,6],[82,10],[80,10]]},
+  {id:608,name:'Philippines',pts:[[118,5],[127,5],[127,20],[118,20]]},
+  {id:158,name:'Taiwan',pts:[[120,22],[122,22],[122,25],[120,25]]},
+  /* Africa */
+  {id:12,name:'Algeria',pts:[[-2,19],[12,19],[12,37],[-2,37]]},
+  {id:504,name:'Morocco',pts:[[-13,27],[-1,27],[-1,36],[-5,36],[-13,35]]},
+  {id:788,name:'Tunisia',pts:[[7,30],[12,30],[12,37],[7,37]]},
+  {id:434,name:'Libya',pts:[[9,20],[25,20],[25,33],[9,33]]},
+  {id:818,name:'Egypt',pts:[[25,22],[35,22],[35,31],[25,31]]},
+  {id:706,name:'Somalia',pts:[[40,2],[52,2],[52,12],[40,12]]},
+  {id:404,name:'Kenya',pts:[[34,-5],[42,-5],[42,5],[34,5]]},
+  {id:800,name:'Uganda',pts:[[29,-1],[35,-1],[35,4],[29,4]]},
+  {id:231,name:'Ethiopia',pts:[[33,3],[48,3],[48,15],[33,15]]},
+  {id:566,name:'Nigeria',pts:[[3,4],[15,4],[15,14],[3,14]]},
+  {id:288,name:'Ghana',pts:[[-3,5],[2,5],[2,11],[-3,11]]},
+  {id:686,name:'Senegal',pts:[[-17,12],[-11,12],[-11,16],[-17,16]]},
+  {id:710,name:'South Africa',pts:[[17,-35],[33,-35],[33,-22],[17,-22]]},
+  {id:508,name:'Mozambique',pts:[[32,-26],[36,-26],[36,-10],[32,-10]]},
+  {id:716,name:'Zimbabwe',pts:[[25,-22],[33,-22],[33,-16],[25,-16]]},
+  {id:894,name:'Zambia',pts:[[22,-18],[33,-18],[33,-8],[22,-8]]},
+  {id:180,name:'DR Congo',pts:[[12,-13],[31,-13],[31,5],[12,5]]},
+  {id:120,name:'Cameroon',pts:[[8,2],[16,2],[16,13],[8,13]]},
+  {id:24,name:'Angola',pts:[[12,-18],[24,-18],[24,-5],[12,-5]]},
+  {id:729,name:'Sudan',pts:[[22,8],[38,8],[38,22],[22,22]]},
+  {id:450,name:'Madagascar',pts:[[43,-26],[50,-26],[50,-12],[43,-12]]},
+  /* Oceania */
+  {id:36,name:'Australia',pts:[[114,-10],[154,-10],[154,-44],[128,-38],[114,-30]]},
+  {id:554,name:'New Zealand',pts:[[166,-47],[178,-47],[178,-34],[166,-34]]}
+];
+
+function buildMap() {
+  var svg = document.getElementById('world-map');
+  var ns = 'http://www.w3.org/2000/svg';
+
+  /* Background */
+  var bg = document.createElementNS(ns, 'rect');
+  bg.setAttribute('width', W); bg.setAttribute('height', H);
+  bg.setAttribute('fill', '#1C1008');
+  svg.appendChild(bg);
+
+  /* Subtle grid lines */
+  [-60,-30,0,30,60].forEach(function(lat) {
+    var line = document.createElementNS(ns,'line');
+    line.setAttribute('x1', 0); line.setAttribute('x2', W);
+    line.setAttribute('y1', Math.round((90-lat)/180*H));
+    line.setAttribute('y2', Math.round((90-lat)/180*H));
+    line.setAttribute('stroke','rgba(255,255,255,0.05)');
+    line.setAttribute('stroke-width','0.5');
+    svg.appendChild(line);
+  });
+  [-120,-60,0,60,120].forEach(function(lon) {
+    var line = document.createElementNS(ns,'line');
+    line.setAttribute('y1', 0); line.setAttribute('y2', H);
+    line.setAttribute('x1', Math.round((lon+180)/360*W));
+    line.setAttribute('x2', Math.round((lon+180)/360*W));
+    line.setAttribute('stroke','rgba(255,255,255,0.05)');
+    line.setAttribute('stroke-width','0.5');
+    svg.appendChild(line);
+  });
+
+  /* Countries */
+  MAP_COUNTRIES.forEach(function(c) {
+    var poly = document.createElementNS(ns, 'polygon');
+    poly.setAttribute('points', c.pts.map(function(p){ return px(p[0],p[1]); }).join(' '));
+    poly.setAttribute('fill', 'rgba(255,255,255,0.13)');
+    poly.setAttribute('stroke', 'rgba(255,255,255,0.55)');
+    poly.setAttribute('stroke-width', '0.7');
+    poly.setAttribute('data-id', c.id);
+    poly.classList.add('cp');
+    if (recipeCodes.has(c.id)) poly.classList.add('has-r');
+
+    var tip = document.getElementById('tip');
+
+    poly.addEventListener('mouseover', function() {
+      if (c.id !== selectedCountry) {
+        poly.setAttribute('fill', '#FFC107');
+        poly.setAttribute('stroke', 'white');
+        poly.setAttribute('stroke-width', '1');
+      }
+      var n = RECIPES.filter(function(r){ return r.cc===c.id; }).length;
+      tip.style.display = 'block';
+      tip.innerHTML = '<strong style="font-size:13px">' + c.name + '</strong><br>' +
+        (n > 0
+          ? '<span style="color:#FFC107">🍽 ' + n + ' recipe' + (n>1?'s':'') + '</span>' +
+            '<br><span style="font-size:10px;color:rgba(255,255,255,.4)">Click to filter</span>'
+          : '<span style="color:rgba(255,255,255,.4)">No recipes yet</span>');
+    });
+    poly.addEventListener('mousemove', function(ev) {
+      tip.style.left = (ev.clientX + 16) + 'px';
+      tip.style.top  = (ev.clientY - 12) + 'px';
+    });
+    poly.addEventListener('mouseout', function() {
+      if (c.id !== selectedCountry) {
+        poly.setAttribute('fill', 'rgba(255,255,255,0.13)');
+        poly.setAttribute('stroke', 'rgba(255,255,255,0.55)');
+        poly.setAttribute('stroke-width', '0.7');
+      }
+      tip.style.display = 'none';
+    });
+    poly.addEventListener('click', function() {
+      if (!recipeCodes.has(c.id)) return;
+      if (selectedCountry === c.id) {
+        clearCountry();
+      } else {
+        resetMapCountry();
+        selectedCountry = c.id;
+        poly.setAttribute('fill', '#E8A020');
+        poly.setAttribute('stroke', 'white');
+        poly.setAttribute('stroke-width', '1.5');
+        var n = RECIPES.filter(function(r){ return r.cc===c.id; }).length;
+        document.getElementById('mbt').textContent = c.name + ' — ' + n + ' recipe' + (n>1?'s':'') + ' found';
+        document.getElementById('mb').classList.add('show');
+        applyFilter();
+        setTimeout(function(){
+          document.querySelector('.results-bar').scrollIntoView({behavior:'smooth',block:'start'});
+        }, 120);
+      }
+    });
+    svg.appendChild(poly);
+  });
+}
+
+function resetMapCountry() {
+  document.querySelectorAll('.cp').forEach(function(el) {
+    el.setAttribute('fill', 'rgba(255,255,255,0.13)');
+    el.setAttribute('stroke', 'rgba(255,255,255,0.55)');
+    el.setAttribute('stroke-width', '0.7');
+  });
+}
+
+/* ═══════════════════════════
+   INIT
+   ═══════════════════════════ */
+buildMap();
+render();
+
+function toggleMenu(){ document.getElementById('mobile-menu').classList.toggle('open'); }
+function closeMenu(){ document.getElementById('mobile-menu').classList.remove('open'); }
+</script>
+</body>
+</html>
