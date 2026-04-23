@@ -263,7 +263,7 @@
 <footer>
   <div>
     <a href="index.html" class="fl">Mélange <em>of Flavours</em></a>
-    <p class="fp">Global recipes. Pantry ingredients. No specialty store needed. Bengaluru, India</p>
+    <p class="fp">World on your plate</p>
   </div>
   <ul class="flinks">
     <li><a href="recipes.html">Recipes</a></li>
@@ -285,7 +285,7 @@ function handleSubscribe(){
   const i=document.getElementById('email-input'),em=i.value.trim();
   if(!em||!em.includes('@')){toast('Please enter a valid email.','#5C3310');return}
   const s=gd('subs',[]);if(s.includes(em)){toast('Already subscribed! 🎉','#A0642F');return}
-  s.push(em);sd('subs',s);i.value='';toast('Welcome! Free guide on its way. 🎉');
+  s.push(em);sd('subs',s);i.value='';toast('Welcome! 🎉');
 }
 </script>
 </body>
