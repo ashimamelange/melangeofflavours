@@ -140,15 +140,7 @@
     </div>
   </div>
 
-  <!-- Country filter -->
-  <div class="filter-row">
-    <span class="filter-label">Country</span>
-    <div class="pills" id="country-pills">
-      <!-- built by JS -->
-    </div>
-  </div>
-
-  <!-- Diet / label filter -->
+ <!-- Diet / label filter -->
   <div class="filter-row">
     <span class="filter-label">Diet</span>
     <div class="pills" id="diet-pills">
@@ -337,12 +329,6 @@ function applyFilter() {
 
 function renderActiveTags() {
   var h = '';
-  if (activeCountry) {
-    var r = RECIPES.find(function(x){ return x.country===activeCountry; });
-    var flag = r ? r.flag : '';
-    h += '<span class="atag">' + flag + ' ' + activeCountry +
-         ' <button class="atag-rm" onclick="setCountry(\'all\')">✕</button></span>';
-  }
   if (searchQuery) {
     h += '<span class="atag">🔍 "' + searchQuery +
          '" <button class="atag-rm" onclick="clearSearch()">✕</button></span>';
@@ -363,14 +349,11 @@ function removeLabel(l) {
   applyFilter();
 }
 function clearAll() {
-  activeCountry = null; activeLabels.clear(); searchQuery = '';
+  activeLabels.clear(); searchQuery = '';
   document.getElementById('si').value = '';
   document.querySelectorAll('#diet-pills .pill').forEach(function(p){ p.classList.remove('active'); });
   document.querySelector('#diet-pills [data-label="all"]').classList.add('active');
-  document.querySelectorAll('#country-pills .pill').forEach(function(p){
-    p.classList.remove('active','active-country');
-  });
-  document.querySelector('#country-pills [data-country="all"]').classList.add('active');
+  
   applyFilter();
 }
 
@@ -393,7 +376,7 @@ function render() {
         '<h3>'+r.name+'</h3>' +
         '<p>'+r.desc+'</p>' +
         '<div class="rcm"><span>⏱ '+r.time+'</span><span>👤 '+r.sv+' servings</span></div>' +
-        '<div class="rch">⭐ Hero: '+r.hero+'</div>' +
+        '<div class="rch">Main ingredient: '+r.hero+'</div>' +
         '<div class="rcl">'+labelHTML+'</div>' +
       '</div></a>';
   }).join('');
@@ -401,7 +384,6 @@ function render() {
 }
 
 /* ── INIT ── */
-buildCountryPills();
 render();
 
 function toggleMenu(){ document.getElementById('mobile-menu').classList.toggle('open'); }
