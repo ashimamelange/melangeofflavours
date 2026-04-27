@@ -367,7 +367,7 @@
       <div class="fai-error" id="faiError"><p id="faiErrMsg"></p></div>
 
       <div class="fai-ings" id="faiIngs">
-        <div class="fai-ings-label">🥦 Ingredients detected</div>
+        <div class="fai-ings-label">Ingredients detected</div>
         <div class="fai-chips" id="faiChips"></div>
       </div>
 
@@ -439,7 +439,7 @@
       const ings=parsed.ingredients||[];
       stopLoad();hd('faiLoading');
       renderIngs(ings);renderRecipes(match(ings));sw('faiFooter',true);
-    }catch(e){stopLoad();hd('faiLoading');sw('faiError',true);document.getElementById('faiErrMsg').textContent=e.message==='api'?'Could not connect to the AI. Please check your connection and try again.':'Couldn\'t read the image clearly — try a well-lit, closer photo!';sw('faiPreview',true);btn.disabled=false;btn.textContent='🔍 Try Again'}
+    }catch(e){stopLoad();hd('faiLoading');sw('faiError',true);document.getElementById('faiErrMsg').textContent=e.message==='api'?'Could not connect to the AI. Please check your connection and try again.':'Couldn\'t read the image clearly — try a well-lit, closer photo!';sw('faiPreview',true);btn.disabled=false;btn.textContent='Try Again'}
   };
   function startLoad(){let i=0;const el=document.getElementById('faiStep');el.textContent=LOAD_MSGS[0];loadTimer=setInterval(()=>{i=(i+1)%LOAD_MSGS.length;el.textContent=LOAD_MSGS[i]},2000)}
   function stopLoad(){clearInterval(loadTimer)}
