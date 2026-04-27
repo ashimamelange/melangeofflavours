@@ -241,6 +241,222 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     FRIDGE AI COMPONENT
+     ═══════════════════════════════════════════ -->
+<style>
+#fridgeAI{--fai-gold:#FFC107;--fai-gold-d:#e0a800;--fai-cream:#FFFDD0;--fai-brown:#895129;--fai-brown-d:#6b3d1e;--fai-brown-l:#b87a4a;--fai-text:#2c1a0e;--fai-muted:#7a5c44;--fai-white:#ffffff;--fai-shadow:0 4px 24px rgba(137,81,41,0.12);--fai-shadow-h:0 10px 40px rgba(137,81,41,0.22);font-family:'DM Sans','Lato','Segoe UI',sans-serif;background:linear-gradient(160deg,#fdf6e3 0%,var(--fai-cream) 50%,#fff8e1 100%);padding:80px 24px;position:relative;overflow:hidden}
+#fridgeAI::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='56' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 34L0 84V66l28 16 28-16v18L28 100z' fill='%23FFC107' fill-opacity='0.05'/%3E%3C/svg%3E");pointer-events:none}
+#fridgeAI .fai-inner{max-width:860px;margin:0 auto;position:relative}
+#fridgeAI .fai-header{text-align:center;margin-bottom:2.5rem}
+#fridgeAI .fai-tag{display:inline-flex;align-items:center;gap:6px;background:var(--fai-brown);color:var(--fai-gold);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:6px 18px;border-radius:50px;margin-bottom:18px}
+#fridgeAI .fai-header h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.8rem);color:var(--fai-brown-d);line-height:1.2;margin-bottom:10px}
+#fridgeAI .fai-header h2 em{color:var(--fai-brown);font-style:italic}
+#fridgeAI .fai-header p{color:var(--fai-muted);font-size:15px;font-weight:300;max-width:460px;margin:0 auto;line-height:1.7}
+#fridgeAI .fai-card{background:var(--fai-white);border-radius:22px;box-shadow:var(--fai-shadow);overflow:hidden}
+#fridgeAI .fai-drop{border:2.5px dashed var(--fai-gold);border-radius:16px;margin:1.8rem;padding:2.5rem 1.5rem;text-align:center;background:linear-gradient(145deg,var(--fai-cream),#fff8e1);cursor:pointer;transition:all .25s}
+#fridgeAI .fai-drop.drag-over,#fridgeAI .fai-drop:hover{border-color:var(--fai-brown);background:linear-gradient(145deg,#fff8e1,#ffe88a55)}
+#fridgeAI .fai-drop-icon{font-size:2.8rem;margin-bottom:10px;display:block}
+#fridgeAI .fai-drop h3{font-family:'Playfair Display',Georgia,serif;font-size:1.2rem;color:var(--fai-brown);margin-bottom:6px}
+#fridgeAI .fai-drop p{color:var(--fai-muted);font-size:13px;margin-bottom:1.2rem}
+#fridgeAI .fai-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#fridgeAI input[type="file"]{display:none}
+#fridgeAI .fai-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none;font-family:inherit;letter-spacing:.3px}
+#fridgeAI .fai-btn-gold{background:var(--fai-gold);color:var(--fai-brown-d);box-shadow:0 2px 12px rgba(255,193,7,.32)}
+#fridgeAI .fai-btn-gold:hover{background:var(--fai-gold-d);transform:translateY(-1px)}
+#fridgeAI .fai-btn-outline{background:transparent;color:var(--fai-brown);border:2px solid var(--fai-brown)}
+#fridgeAI .fai-btn-outline:hover{background:var(--fai-brown);color:var(--fai-cream)}
+#fridgeAI .fai-btn-ghost{background:transparent;color:var(--fai-muted);font-size:12px;padding:7px 14px}
+#fridgeAI .fai-btn-ghost:hover{color:var(--fai-brown)}
+#fridgeAI .fai-btn-scan{background:linear-gradient(135deg,var(--fai-brown) 0%,var(--fai-brown-l) 100%);color:var(--fai-cream);font-size:14px;padding:12px 2rem;box-shadow:0 4px 18px rgba(137,81,41,.28)}
+#fridgeAI .fai-btn-scan:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(137,81,41,.38)}
+#fridgeAI .fai-btn-scan:disabled{opacity:.55;cursor:not-allowed;transform:none}
+#fridgeAI .fai-preview{display:none;margin:0 1.8rem 1.5rem}
+#fridgeAI .fai-preview.show{display:block}
+#fridgeAI .fai-preview img{width:100%;max-height:280px;object-fit:cover;border-radius:12px;box-shadow:0 3px 16px rgba(137,81,41,.14)}
+#fridgeAI .fai-preview-ctrl{display:flex;gap:10px;margin-top:12px;justify-content:center;align-items:center;flex-wrap:wrap}
+#fridgeAI .fai-loading{display:none;padding:2.5rem 1.5rem;text-align:center}
+#fridgeAI .fai-loading.show{display:block}
+#fridgeAI .fai-spinner-wrap{width:64px;height:64px;position:relative;margin:0 auto 14px}
+#fridgeAI .fai-spinner{width:64px;height:64px;border:4px solid var(--fai-cream);border-top-color:var(--fai-gold);border-right-color:var(--fai-brown-l);border-radius:50%;animation:faiSpin 1.1s linear infinite}
+#fridgeAI .fai-spinner-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+@keyframes faiSpin{to{transform:rotate(360deg)}}
+#fridgeAI .fai-loading h4{font-family:'Playfair Display',Georgia,serif;color:var(--fai-brown);font-size:1.05rem;margin-bottom:5px}
+#fridgeAI .fai-loading p{color:var(--fai-muted);font-size:13px}
+#fridgeAI .fai-loading p span{animation:faiPulse 2s ease-in-out infinite;display:inline-block}
+@keyframes faiPulse{0%,100%{opacity:.3}50%{opacity:1}}
+#fridgeAI .fai-error{display:none;margin:0 1.8rem 1.5rem;background:#fff5f5;border:1px solid #ffcccc;border-radius:10px;padding:14px;text-align:center}
+#fridgeAI .fai-error.show{display:block}
+#fridgeAI .fai-error p{color:#c0392b;font-size:13px}
+#fridgeAI .fai-ings{display:none;padding:0 1.8rem 1.5rem}
+#fridgeAI .fai-ings.show{display:block}
+#fridgeAI .fai-ings-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--fai-muted);margin-bottom:10px}
+#fridgeAI .fai-chips{display:flex;flex-wrap:wrap;gap:6px}
+#fridgeAI .fai-chip{background:linear-gradient(135deg,var(--fai-cream),#fff8e1);border:1.5px solid var(--fai-gold);color:var(--fai-brown-d);padding:4px 12px;border-radius:50px;font-size:12px;font-weight:700;animation:faiChipIn .3s ease backwards}
+@keyframes faiChipIn{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+#fridgeAI .fai-card-footer{padding:1rem 1.8rem;background:linear-gradient(135deg,var(--fai-cream),#fff8e1);border-top:1px solid rgba(255,193,7,.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+#fridgeAI .fai-card-footer p{font-size:13px;color:var(--fai-muted)}
+#fridgeAI .fai-results{display:none;margin-top:1.8rem}
+#fridgeAI .fai-results.show{display:block}
+#fridgeAI .fai-results-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:1.2rem}
+#fridgeAI .fai-results-header h3{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;color:var(--fai-brown-d)}
+#fridgeAI .fai-results-header h3 em{color:var(--fai-brown);font-style:italic}
+#fridgeAI .fai-count{font-size:12px;color:var(--fai-muted);background:var(--fai-white);padding:4px 12px;border-radius:20px;border:1px solid rgba(137,81,41,.12)}
+#fridgeAI .fai-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+#fridgeAI .fai-rcard{background:var(--fai-white);border-radius:14px;overflow:hidden;box-shadow:var(--fai-shadow);text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all .22s;animation:faiCardIn .38s ease backwards}
+#fridgeAI .fai-rcard:hover{transform:translateY(-3px);box-shadow:var(--fai-shadow-h)}
+@keyframes faiCardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+#fridgeAI .fai-rcard-img{height:130px;position:relative;background:linear-gradient(135deg,var(--fai-cream),#fff8e1);display:flex;align-items:center;justify-content:center;font-size:3.2rem;overflow:hidden}
+#fridgeAI .fai-badge{position:absolute;top:8px;left:8px;background:rgba(107,61,30,.82);color:var(--fai-cream);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px}
+#fridgeAI .fai-matchbar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.25)}
+#fridgeAI .fai-matchbar-fill{height:100%;background:linear-gradient(90deg,var(--fai-gold),var(--fai-gold-d))}
+#fridgeAI .fai-rbody{padding:12px;flex:1;display:flex;flex-direction:column}
+#fridgeAI .fai-rtitle{font-family:'Playfair Display',Georgia,serif;font-size:15px;color:var(--fai-brown-d);margin-bottom:4px;line-height:1.3}
+#fridgeAI .fai-rdesc{font-size:12px;color:var(--fai-muted);line-height:1.55;margin-bottom:10px;flex:1}
+#fridgeAI .fai-rmeta{display:flex;align-items:center;justify-content:space-between;gap:6px}
+#fridgeAI .fai-rtime{font-size:11px;color:var(--fai-muted)}
+#fridgeAI .fai-rscore{font-size:11px;font-weight:700;color:var(--fai-brown);background:var(--fai-cream);padding:2px 8px;border-radius:20px}
+#fridgeAI .fai-rmatch{padding:8px 12px;background:linear-gradient(135deg,var(--fai-cream),#fff8e1);border-top:1px solid rgba(255,193,7,.18)}
+#fridgeAI .fai-rmatch-label{font-size:9px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--fai-muted);margin-bottom:5px}
+#fridgeAI .fai-rmatch-chips{display:flex;flex-wrap:wrap;gap:4px}
+#fridgeAI .fai-rmatch-chip{background:white;border:1px solid var(--fai-gold);color:var(--fai-brown-d);font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700}
+#fridgeAI .fai-rcta{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;background:var(--fai-brown);color:var(--fai-cream);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:background .18s}
+#fridgeAI .fai-rcard:hover .fai-rcta{background:var(--fai-brown-d)}
+#fridgeAI .fai-again{text-align:center;margin-top:1.5rem}
+#fridgeAI .fai-again p{font-size:13px;color:var(--fai-muted);margin-bottom:10px}
+@media(max-width:600px){#fridgeAI .fai-drop,#fridgeAI .fai-preview,#fridgeAI .fai-ings,#fridgeAI .fai-error{margin-left:1rem;margin-right:1rem}#fridgeAI .fai-card-footer{padding:12px 1rem}}
+</style>
+
+<section id="fridgeAI">
+  <div class="fai-inner">
+
+    <div class="fai-header">
+      <div class="fai-tag">✨ AI-Powered</div>
+      <h2>What Can I Cook With<br><em>What I Have?</em></h2>
+      <p>Snap your fridge or grocery haul — our AI identifies your ingredients and instantly suggests global pantry recipes you can make right now.</p>
+    </div>
+
+    <div class="fai-card">
+      <div class="fai-drop" id="faiDrop">
+        <span class="fai-drop-icon">📸</span>
+        <h3>Drop a fridge photo here</h3>
+        <p>Or upload a snap of your pantry shelf, grocery bag, or whatever's in your kitchen!</p>
+        <div class="fai-btns">
+          <button class="fai-btn fai-btn-gold" onclick="document.getElementById('faiFileInput').click()">📁 Upload Photo</button>
+          <button class="fai-btn fai-btn-outline" id="faiCamBtn">📷 Take Photo</button>
+        </div>
+        <input type="file" id="faiFileInput" accept="image/*" />
+        <input type="file" id="faiCamInput" accept="image/*" capture="environment" />
+      </div>
+
+      <div class="fai-preview" id="faiPreview">
+        <img id="faiPreviewImg" src="" alt="Your photo" />
+        <div class="fai-preview-ctrl">
+          <button class="fai-btn fai-btn-ghost" onclick="faiReset()">✕ Choose different</button>
+          <button class="fai-btn fai-btn-scan" id="faiScanBtn" onclick="faiAnalyse()">🔍 Find My Recipes</button>
+        </div>
+      </div>
+
+      <div class="fai-loading" id="faiLoading">
+        <div class="fai-spinner-wrap">
+          <div class="fai-spinner"></div>
+          <div class="fai-spinner-icon">🍳</div>
+        </div>
+        <h4>Scanning your ingredients…</h4>
+        <p><span id="faiStep">Identifying what's in your photo</span></p>
+      </div>
+
+      <div class="fai-error" id="faiError"><p id="faiErrMsg"></p></div>
+
+      <div class="fai-ings" id="faiIngs">
+        <div class="fai-ings-label">🥦 Ingredients detected</div>
+        <div class="fai-chips" id="faiChips"></div>
+      </div>
+
+      <div class="fai-card-footer" id="faiFooter" style="display:none">
+        <p>Not what you were looking for?</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="fai-btn fai-btn-ghost" onclick="faiReset()">🔄 Try another photo</button>
+          <a href="recipes.html" class="fai-btn fai-btn-outline">Browse all recipes →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="fai-results" id="faiResults">
+      <div class="fai-results-header">
+        <h3>Your <em>Recipe Matches</em></h3>
+        <span class="fai-count" id="faiCount"></span>
+      </div>
+      <div class="fai-grid" id="faiGrid"></div>
+      <div class="fai-again">
+        <p>Want to explore everything?</p>
+        <a href="recipes.html" class="fai-btn fai-btn-outline">View All Recipes →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  const RECIPES=[
+    {id:1,title:"Shakshuka",cuisine:"Middle Eastern",emoji:"🍳",desc:"Eggs poached in spiced tomato sauce — a punchy one-pan dinner.",time:"25 min",url:"recipes.html#shakshuka",keys:["eggs","tomato","tomatoes","onion","garlic","bell pepper","capsicum","cumin","paprika","olive oil","chilli"]},
+    {id:2,title:"Miso Soup with Tofu",cuisine:"Japanese",emoji:"🍜",desc:"Silky tofu in a deeply savoury miso broth.",time:"15 min",url:"recipes.html#miso-soup",keys:["tofu","miso","spring onion","scallion","seaweed","mushroom","soy sauce"]},
+    {id:3,title:"Pasta Aglio e Olio",cuisine:"Italian",emoji:"🍝",desc:"Golden garlic, chilli flakes, olive oil, pasta. Pure pantry magic.",time:"20 min",url:"recipes.html#aglio-olio",keys:["pasta","garlic","olive oil","chilli","parsley","spaghetti","noodles"]},
+    {id:4,title:"Dal Tadka",cuisine:"Indian",emoji:"🥣",desc:"Earthy lentils bloomed with mustard seeds, cumin, and tomatoes.",time:"35 min",url:"recipes.html#dal-tadka",keys:["lentils","dal","onion","tomato","tomatoes","cumin","mustard seeds","garlic","ginger","turmeric","ghee","butter"]},
+    {id:5,title:"Egg Fried Rice",cuisine:"Chinese",emoji:"🍚",desc:"Leftover rice transformed with soy sauce, eggs, and veggies.",time:"20 min",url:"recipes.html#fried-rice",keys:["rice","egg","eggs","soy sauce","spring onion","carrot","peas","garlic","ginger","sesame oil"]},
+    {id:6,title:"Hummus",cuisine:"Levantine",emoji:"🫘",desc:"Creamy chickpeas with tahini and lemon — ready in 10 minutes.",time:"10 min",url:"recipes.html#hummus",keys:["chickpeas","tahini","lemon","garlic","olive oil","cumin","sesame"]},
+    {id:7,title:"Vegetable Stir Fry",cuisine:"Asian",emoji:"🥦",desc:"Crisp vegetables in a ginger-garlic-soy sauce. 15 minutes flat.",time:"15 min",url:"recipes.html#stir-fry",keys:["broccoli","capsicum","bell pepper","carrot","mushroom","garlic","ginger","soy sauce","sesame oil","beans","cabbage"]},
+    {id:8,title:"Roasted Lemon Potatoes",cuisine:"Mediterranean",emoji:"🥔",desc:"Crispy potatoes with lemon zest, rosemary, and garlic.",time:"45 min",url:"recipes.html#roasted-potatoes",keys:["potato","potatoes","lemon","garlic","rosemary","thyme","olive oil"]},
+    {id:9,title:"Banana Oat Pancakes",cuisine:"American",emoji:"🥞",desc:"Fluffy 3-ingredient pancakes — banana, oats, and egg.",time:"15 min",url:"recipes.html#banana-pancakes",keys:["banana","oats","egg","eggs","milk","vanilla","cinnamon","honey"]},
+    {id:10,title:"Tomato Bruschetta",cuisine:"Italian",emoji:"🍅",desc:"Ripe tomatoes and fresh basil on crispy toasted bread.",time:"10 min",url:"recipes.html#bruschetta",keys:["tomato","tomatoes","basil","bread","garlic","olive oil","balsamic"]},
+    {id:11,title:"Greek Salad",cuisine:"Greek",emoji:"🥗",desc:"Tomatoes, cucumber, olives, and feta in a lemon-herb dressing.",time:"10 min",url:"recipes.html#greek-salad",keys:["tomato","tomatoes","cucumber","olives","feta","onion","lemon","olive oil","oregano","capsicum"]},
+    {id:12,title:"Chana Masala",cuisine:"Indian",emoji:"🫘",desc:"Boldly spiced chickpeas in a tangy tomato gravy.",time:"30 min",url:"recipes.html#chana-masala",keys:["chickpeas","tomato","tomatoes","onion","garlic","ginger","cumin","garam masala","turmeric"]},
+    {id:13,title:"Avocado Toast",cuisine:"Modern",emoji:"🥑",desc:"Smashed avocado on sourdough with lemon and chilli flakes.",time:"5 min",url:"recipes.html#avocado-toast",keys:["avocado","bread","lemon","chilli","egg","eggs","tomato"]},
+    {id:14,title:"Red Lentil Soup",cuisine:"Middle Eastern",emoji:"🍲",desc:"Warming lentil soup with cumin, lemon, and smoky paprika.",time:"35 min",url:"recipes.html#lentil-soup",keys:["lentils","red lentils","onion","garlic","cumin","paprika","lemon","tomato","spinach","carrot"]},
+    {id:15,title:"Yogurt Parfait",cuisine:"Universal",emoji:"🫙",desc:"Thick yogurt layered with honey, fruit, and crunchy granola.",time:"5 min",url:"recipes.html#yogurt-parfait",keys:["yogurt","curd","honey","granola","oats","banana","fruit","nuts"]},
+    {id:16,title:"Shoyu Ramen",cuisine:"Japanese",emoji:"🍜",desc:"Rich soy broth with noodles — zero specialty store needed.",time:"25 min",url:"recipes.html#shoyu-ramen",keys:["noodles","soy sauce","egg","eggs","garlic","ginger","spring onion","mushroom","sesame oil","broth"]},
+    {id:17,title:"Chicken Makhni",cuisine:"Indian",emoji:"🍗",desc:"Classic butter chicken reimagined with pantry spices.",time:"30 min",url:"recipes.html#chicken-makhni",keys:["chicken","tomato","tomatoes","onion","garlic","ginger","cream","butter","cumin","garam masala","turmeric","paprika"]},
+    {id:18,title:"Chickpea Tagine",cuisine:"Moroccan",emoji:"🫘",desc:"Warming Moroccan flavours from cumin, coriander, and paprika.",time:"20 min",url:"recipes.html#chickpea-tagine",keys:["chickpeas","tomato","tomatoes","onion","garlic","cumin","coriander","paprika","cinnamon","lemon","olive oil"]}
+  ];
+  const EMOJIS={tomato:'🍅',tomatoes:'🍅',egg:'🥚',eggs:'🥚',milk:'🥛',cheese:'🧀',butter:'🧈',garlic:'🧄',onion:'🧅',potato:'🥔',potatoes:'🥔',carrot:'🥕',broccoli:'🥦',lemon:'🍋',banana:'🍌',apple:'🍎',pepper:'🫑',capsicum:'🫑',mushroom:'🍄',avocado:'🥑',bread:'🍞',pasta:'🍝',rice:'🍚',lentils:'🫘',chickpeas:'🫘',yogurt:'🥛',curd:'🥛',spinach:'🥬',ginger:'🫚',cucumber:'🥒',chicken:'🍗',noodles:'🍜'};
+  const LOAD_MSGS=["Identifying what's in your photo…","Spotting every ingredient…","Checking your pantry staples…","Matching global recipes…","Finding the best combinations…"];
+  let b64=null,loadTimer=null;
+  document.getElementById('faiFileInput').addEventListener('change',e=>pick(e.target.files[0]));
+  document.getElementById('faiCamInput').addEventListener('change',e=>pick(e.target.files[0]));
+  document.getElementById('faiCamBtn').addEventListener('click',()=>document.getElementById('faiCamInput').click());
+  const drop=document.getElementById('faiDrop');
+  drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag-over')});
+  drop.addEventListener('dragleave',()=>drop.classList.remove('drag-over'));
+  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))pick(f)});
+  function pick(file){if(!file)return;const r=new FileReader();r.onload=ev=>{b64=ev.target.result.split(',')[1];document.getElementById('faiPreviewImg').src=ev.target.result;sw('faiDrop',false);sw('faiPreview',true);hd('faiResults');hd('faiIngs');hd('faiError');hd('faiFooter')};r.readAsDataURL(file)}
+  window.faiReset=function(){b64=null;clearInterval(loadTimer);sw('faiDrop',true);sw('faiPreview',false);hd('faiLoading');hd('faiResults');hd('faiIngs');hd('faiError');hd('faiFooter');document.getElementById('faiFileInput').value='';document.getElementById('faiCamInput').value='';document.getElementById('faiScanBtn').disabled=false;document.getElementById('faiScanBtn').textContent='🔍 Find My Recipes'};
+  window.faiAnalyse=async function(){if(!b64)return;const btn=document.getElementById('faiScanBtn');btn.disabled=true;sw('faiPreview',false);sw('faiLoading',true);hd('faiError');hd('faiIngs');hd('faiResults');hd('faiFooter');startLoad();
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},{type:'text',text:'You are a culinary AI for "Mélange of Flavours", a global pantry recipe blog.\nAnalyse this image of a fridge, pantry shelf, or groceries. Identify ALL visible food ingredients.\nRespond ONLY with valid JSON (no markdown):\n{"ingredients":["ingredient1","ingredient2"],"confidence":"high|medium|low"}\nRules: lowercase ingredients, be specific, max 20 items.'}]}]})});
+      if(!res.ok)throw new Error('api');
+      const data=await res.json();
+      const raw=data.content.map(c=>c.text||'').join('');
+      const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+      const ings=parsed.ingredients||[];
+      stopLoad();hd('faiLoading');
+      renderIngs(ings);renderRecipes(match(ings));sw('faiFooter',true);
+    }catch(e){stopLoad();hd('faiLoading');sw('faiError',true);document.getElementById('faiErrMsg').textContent=e.message==='api'?'Could not connect to the AI. Please check your connection and try again.':'Couldn\'t read the image clearly — try a well-lit, closer photo!';sw('faiPreview',true);btn.disabled=false;btn.textContent='🔍 Try Again'}
+  };
+  function startLoad(){let i=0;const el=document.getElementById('faiStep');el.textContent=LOAD_MSGS[0];loadTimer=setInterval(()=>{i=(i+1)%LOAD_MSGS.length;el.textContent=LOAD_MSGS[i]},2000)}
+  function stopLoad(){clearInterval(loadTimer)}
+  function renderIngs(ings){const el=document.getElementById('faiChips');el.innerHTML=ings.map((ing,i)=>`<span class="fai-chip" style="animation-delay:${i*.05}s">${EMOJIS[ing.toLowerCase()]||'🌿'} ${cap(ing)}</span>`).join('');sw('faiIngs',true)}
+  function match(ings){const low=ings.map(i=>i.toLowerCase());return RECIPES.map(r=>{const hits=r.keys.filter(k=>low.some(i=>i.includes(k)||k.includes(i)));return{...r,hits,score:hits.length/r.keys.length}}).filter(r=>r.hits.length>=1).sort((a,b)=>b.score-a.score).slice(0,6)}
+  function renderRecipes(recipes){const grid=document.getElementById('faiGrid');const count=document.getElementById('faiCount');if(recipes.length===0){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:var(--fai-muted)"><div style="font-size:2.5rem;margin-bottom:10px">😔</div><p>No close matches — try <a href="recipes.html" style="color:var(--fai-brown);font-weight:700">browsing all recipes</a>!</p></div>`}else{count.textContent=`${recipes.length} match${recipes.length>1?'es':''}`;grid.innerHTML=recipes.map((r,i)=>{const pct=Math.round(r.score*100);return`<a href="${r.url}" class="fai-rcard" style="animation-delay:${i*.08}s"><div class="fai-rcard-img">${r.emoji}<span class="fai-badge">${r.cuisine}</span><div class="fai-matchbar"><div class="fai-matchbar-fill" style="width:${pct}%"></div></div></div><div class="fai-rbody"><div class="fai-rtitle">${r.title}</div><div class="fai-rdesc">${r.desc}</div><div class="fai-rmeta"><span class="fai-rtime">⏱ ${r.time}</span><span class="fai-rscore">🎯 ${pct}% match</span></div></div><div class="fai-rmatch"><div class="fai-rmatch-label">Ingredients you have</div><div class="fai-rmatch-chips">${r.hits.slice(0,5).map(h=>`<span class="fai-rmatch-chip">✓ ${cap(h)}</span>`).join('')}</div></div><div class="fai-rcta">View Full Recipe →</div></a>`}).join('')}sw('faiResults',true)}
+  function sw(id,on){const el=document.getElementById(id);if(!el)return;if(on===false){el.style.display='none';el.classList.remove('show')}else{el.style.display='';el.classList.add('show')}}
+  function hd(id){sw(id,false)}
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+})();
+</script>
+<!-- ═══════════════════════════════════════════
+     END FRIDGE AI COMPONENT
+     ═══════════════════════════════════════════ -->
+
 <!-- PHOTO GRID -->
 <div class="photo-grid-section">
   <div class="photo-grid">
