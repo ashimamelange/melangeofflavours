@@ -89,7 +89,7 @@
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .45s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── PHOTO GRID ── */
+/* ── PHOTO GRID 
 .photo-grid-section{background:var(--dark);overflow:hidden}
 .photo-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 280px;gap:4px}
 .pg-cell{background-size:cover;background-position:center;position:relative;overflow:hidden;cursor:pointer}
@@ -97,7 +97,7 @@
 .pg-cell:hover::after{opacity:.45}
 .pg-cell:hover .pg-img{transform:scale(1.06)}
 .pg-img{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .5s ease}
-/* REPLACE each background-image with your own dish photos */
+ REPLACE each background-image with your own dish photos 
 .pg-cell-1 .pg-img{background-image:url('images/grid-1.jpg')}
 .pg-cell-2 .pg-img{background-image:url('images/grid-2.jpg')}
 .pg-cell-3 .pg-img{background-image:url('images/grid-3.jpg')}
@@ -106,7 +106,7 @@
 .pg-cell-1{grid-row:span 2}
 .pg-label{position:absolute;bottom:16px;left:16px;z-index:2;color:white}
 .pg-label strong{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;display:block}
-.pg-label span{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em}
+.pg-label span{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em} ── */
 
 /* ── RECIPE PREVIEW ── */
 .recipes-preview{padding:72px 48px;background:white}
@@ -331,19 +331,17 @@
   <div class="fai-inner">
 
     <div class="fai-header">
-      <div class="fai-tag">✨ AI-Powered</div>
       <h2>What Can I Cook With<br><em>What I Have?</em></h2>
-      <p>Snap your fridge or grocery haul — our AI identifies your ingredients and instantly suggests global pantry recipes you can make right now.</p>
+      <p>Snap your fridge or grocery haul and we will suggest global pantry recipes you can make right now.</p>
     </div>
 
     <div class="fai-card">
       <div class="fai-drop" id="faiDrop">
         <span class="fai-drop-icon">📸</span>
-        <h3>Drop a fridge photo here</h3>
-        <p>Or upload a snap of your pantry shelf, grocery bag, or whatever's in your kitchen!</p>
+        <h3>Upload a snap of your pantry shelf, grocery bag, or whatever's in your kitchen!</h3>
         <div class="fai-btns">
-          <button class="fai-btn fai-btn-gold" onclick="document.getElementById('faiFileInput').click()">📁 Upload Photo</button>
-          <button class="fai-btn fai-btn-outline" id="faiCamBtn">📷 Take Photo</button>
+          <button class="fai-btn fai-btn-gold" onclick="document.getElementById('faiFileInput').click()">Upload Photo</button>
+          <button class="fai-btn fai-btn-outline" id="faiCamBtn">Take Photo</button>
         </div>
         <input type="file" id="faiFileInput" accept="image/*" />
         <input type="file" id="faiCamInput" accept="image/*" capture="environment" />
@@ -353,7 +351,7 @@
         <img id="faiPreviewImg" src="" alt="Your photo" />
         <div class="fai-preview-ctrl">
           <button class="fai-btn fai-btn-ghost" onclick="faiReset()">✕ Choose different</button>
-          <button class="fai-btn fai-btn-scan" id="faiScanBtn" onclick="faiAnalyse()">🔍 Find My Recipes</button>
+          <button class="fai-btn fai-btn-scan" id="faiScanBtn" onclick="faiAnalyse()">Find My Recipes</button>
         </div>
       </div>
 
@@ -376,7 +374,7 @@
       <div class="fai-card-footer" id="faiFooter" style="display:none">
         <p>Not what you were looking for?</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="fai-btn fai-btn-ghost" onclick="faiReset()">🔄 Try another photo</button>
+          <button class="fai-btn fai-btn-ghost" onclick="faiReset()">Try another photo</button>
           <a href="recipes.html" class="fai-btn fai-btn-outline">Browse all recipes →</a>
         </div>
       </div>
